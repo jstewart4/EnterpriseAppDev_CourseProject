@@ -12,7 +12,7 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
 	
-	<ui:param name="title" value="Northwind - Region" />
+	<ui:param name="title" value="Shippers" />
 	
 	<ui:define name="externalstyles">
 	</ui:define>
@@ -21,12 +21,16 @@
 	</ui:define>
 
 	<ui:define name="maincontent">
-		<h1>List of Region</h1>
+		<h1>List of Shippers</h1>
 		
-		<b:dataTable value="#{regionController.regions}" var="currentRegion">
-        <b:dataTableColumn value="#{currentRegion.regionID}" />
-        <b:dataTableColumn value="#{currentRegion.regionDescription}" />
-    </b:dataTable>
+		
+		<h:form>
+			<b:dataTable value="#{shipperController.shippers}" var="currentShipper">
+				<b:dataTableColumn value="#{currentShipper.shipperID}" />
+				<b:dataTableColumn value="#{currentShipper.companyName}" />
+				<b:dataTableColumn value="#{currentShipper.phone}" />
+			</b:dataTable>
+		</h:form>
 				
 	</ui:define>
 

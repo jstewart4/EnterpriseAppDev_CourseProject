@@ -23,7 +23,22 @@
 	<ui:define name="maincontent">
 		<h1>List of Products</h1>
 		
-		[PUT PAGE CONTENT CODE HERE]
+		<b:dataTable value="#{productController.products}" var="currentProduct">
+        <b:dataTableColumn value="#{currentProduct.productID}" />
+        <b:dataTableColumn value="#{currentProduct.productName}" />
+        <b:dataTableColumn>
+        	<f:facet name="header">
+				Unit Price
+			</f:facet>
+			<h:outputText value="#{currentProduct.unitPrice}">
+				<f:convertNumber type="currency" />
+			</h:outputText>
+        </b:dataTableColumn> 
+        
+        <b:dataTableColumn value="#{currentProduct.quantityPerUnit}"/>
+        <b:dataTableColumn value="#{currentProduct.supplier.companyName}" />
+        <b:dataTableColumn value="#{(currentProduct.discontinued == 0) ? 'false' : 'true'}" label="Discontinued" />
+    </b:dataTable>
 				
 	</ui:define>
 
