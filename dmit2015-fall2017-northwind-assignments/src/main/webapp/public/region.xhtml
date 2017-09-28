@@ -23,10 +23,10 @@
 	<ui:define name="maincontent">
 		<h1>List of Region</h1>
 		
-		<b:dataTable value="#{regionController.regions}" var="currentRegion">
-        <b:dataTableColumn value="#{currentRegion.regionID}" />
-        <b:dataTableColumn value="#{currentRegion.regionDescription}" />
-    </b:dataTable>
+	    <b:dataTable value="#{regionController.regions}" var="currentRegion">
+       		<b:dataTableColumn value="#{currentRegion.regionID}" />
+        	<b:dataTableColumn value="#{currentRegion.regionDescription}" />
+        </b:dataTable>
 				
 	</ui:define>
 
