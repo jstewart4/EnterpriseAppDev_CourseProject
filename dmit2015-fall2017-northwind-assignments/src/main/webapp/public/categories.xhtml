@@ -22,9 +22,20 @@
 
 	<ui:define name="maincontent">
 		<h1>List of Categories</h1>
-		[PUT PAGE CONTENT CODE HERE]
-			Jamie was here	
-			HELLO
+		<b:messages id="messages"></b:messages>		
+		
+		<h:form>
+			<b:dataTable value="#{categoryController.categories}" var="category">
+				<b:dataTableColumn value="#{categories.categoryId}">
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{categories.categoryName}">
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{categories.description}">
+				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{categories.picture}">
+				</b:dataTableColumn>								
+			</b:dataTable>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

@@ -1,5 +1,6 @@
 package northwind.data;
 
+
 import java.util.List;
 
 import northwind.model.Territory;
@@ -10,5 +11,4 @@ public class TerritoryRepository extends AbstractJpaRepository<Territory>{
 	public TerritoryRepository() {
 		super(Territory.class);
 	}
-	
 }
