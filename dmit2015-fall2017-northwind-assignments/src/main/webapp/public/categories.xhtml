@@ -32,8 +32,12 @@
 				</b:dataTableColumn>
 				<b:dataTableColumn value="#{categories.description}">
 				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{categories.picture}">
-				</b:dataTableColumn>								
+				<b:dataTableColumn>
+				<f:facet name="header">
+						Picture
+				</f:facet>
+				<o:graphicImage value="#{categories.picture}" dataURI="true" /> <!-- byte[]/InputStream property as data URI -->	
+				</b:dataTableColumn>					
 			</b:dataTable>
 		</h:form>
 	</ui:define>
