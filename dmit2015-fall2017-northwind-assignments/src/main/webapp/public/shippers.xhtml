@@ -23,7 +23,14 @@
 	<ui:define name="maincontent">
 		<h1>List of Shippers</h1>
 		
-		[PUT PAGE CONTENT CODE HERE]
+		
+		<h:form>
+			<b:dataTable value="#{shipperController.shippers}" var="currentShipper">
+				<b:dataTableColumn value="#{currentShipper.shipperID}" />
+				<b:dataTableColumn value="#{currentShipper.companyName}" />
+				<b:dataTableColumn value="#{currentShipper.phone}" />
+			</b:dataTable>
+		</h:form>
 				
 	</ui:define>
 
