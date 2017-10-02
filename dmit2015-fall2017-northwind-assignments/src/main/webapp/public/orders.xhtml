@@ -25,7 +25,25 @@
 		
 		<b:dataTable value="#{orderController.orders}" var="currentOrder">
         	<b:dataTableColumn value="#{currentOrder.orderID}" />
-        	<b:dataTableColumn value="#{currentOrder.customer.companyName}" label=""/>
+        	<b:dataTableColumn value="#{currentOrder.customer.companyName}" label="Customer"/>
+        	<b:dataTableColumn value="#{currentOrder.employee.firstName} #{currentOrder.employee.lastName}" label="Employee"/>
+        	<b:dataTableColumn>
+					<f:facet name="header">
+						Order Date
+					</f:facet>
+					<h:outputText value="#{currentOrder.orderDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</h:outputText>
+				</b:dataTableColumn>	
+        	<b:dataTableColumn value="#{currentOrder.shipper.companyName}" label="Shipper"/>
+        	<b:dataTableColumn>
+        		<f:facet name="header">
+					Freight
+				</f:facet>
+				<h:outputText value="#{currentOrder.freight}">
+					<f:convertNumber type="currency" />
+				</h:outputText>
+        	</b:dataTableColumn> 
         </b:dataTable>
 				
 	</ui:define>
