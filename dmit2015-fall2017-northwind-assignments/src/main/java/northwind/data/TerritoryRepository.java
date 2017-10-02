@@ -1,7 +1,6 @@
 package northwind.data;
 
 
-import java.util.List;
 
 import northwind.model.Territory;
 
