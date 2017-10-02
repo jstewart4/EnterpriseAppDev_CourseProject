@@ -24,12 +24,12 @@
 		<h1>List of Territories</h1>
 		<b:messages id="messages"></b:messages>		
 		<h:form>
-			<b:dataTable value="#{territoryController.territories}" var="territory">
-				<b:dataTableColumn value="#{territories.territoryId}">
+			<b:dataTable value="#{territoryController.territories}" var="territories">
+				<b:dataTableColumn value="#{territories.territoryID}">
 				</b:dataTableColumn>
 				<b:dataTableColumn value="#{territories.territoryDescription}">
 				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{territories.regionID}">
+				<b:dataTableColumn value="#{territories.region.regionDescription}">
 				</b:dataTableColumn>								
 			</b:dataTable>
 		</h:form>
