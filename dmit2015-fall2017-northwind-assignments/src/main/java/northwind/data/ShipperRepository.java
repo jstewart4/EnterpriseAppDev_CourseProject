@@ -1,7 +1,5 @@
 package northwind.data;
 
-import java.util.List;
-
 import northwind.model.Shipper;
 
 public class ShipperRepository extends AbstractJpaRepository<Shipper>{

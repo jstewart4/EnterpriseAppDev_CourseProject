@@ -36,7 +36,7 @@
         </b:dataTableColumn> 
         
         <b:dataTableColumn value="#{currentProduct.quantityPerUnit}"/>
-        <b:dataTableColumn value="#{currentProduct.supplier.companyName}" />
+        <b:dataTableColumn value="#{currentProduct.supplier.companyName}" label="Supplier"/>
         <b:dataTableColumn value="#{(currentProduct.discontinued == 0) ? 'false' : 'true'}" label="Discontinued" />
     </b:dataTable>
 				
