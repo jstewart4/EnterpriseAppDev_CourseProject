@@ -31,9 +31,38 @@
 		<b:messages id="messages" />
 		
 		<b:form id="productDetailForm">
-			<b:panel>
-				<h:outputLabel value="Product ID:" />
-				<h:outputText value="#{productController.currentSelectedProduct.productID}" />
+			<b:panel style="width:600px" collapsible="false" rendered="#{productController.currentSelectedProduct != null}">
+				<h:outputLabel value="Product ID: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.productID}" /> <br/>
+				
+				<h:outputLabel value="Product Name: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.productName}" /> <br/>
+				
+				<h:outputLabel value="Supplier: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.supplier.companyName}" /> <br/>
+				
+				<h:outputLabel value="Category: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.category.categoryName}" /> <br/>
+				
+				<h:outputLabel value="Quantity Per Unit: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.quantityPerUnit}" /> <br/>
+				
+				<h:outputLabel value="Unit Price: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.unitPrice}" > 
+					<f:convertNumber type="currency" />
+				</h:outputText> <br/>
+				
+				<h:outputLabel value="Units in Stock: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.unitsInStock}" /> <br/>
+				
+				<h:outputLabel value="Units on Order: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.unitsOnOrder}" /> <br/>
+				
+				<h:outputLabel value="Reorder Level: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.reorderLevel}" /> <br/>
+				
+				<h:outputLabel value="Discontinued: "  style="width:170px;"/>
+				<h:outputText value="#{(productController.currentSelectedProduct.discontinued == 0) ? false : true}" /> <br/>
 			</b:panel>
 		</b:form>
 				
