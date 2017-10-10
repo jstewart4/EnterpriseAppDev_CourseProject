@@ -32,6 +32,7 @@ public class ProductController {
 	
 	private List<Product> productsByCategory; //getter
 	private int currentSelectedProductId; //getter/setter
+	private int currentSelectedCategoryId; //getter/setter
 	private Product currentSelectedProduct; //getter
 	
 	public void findProduct() {
@@ -50,8 +51,8 @@ public class ProductController {
 	
 	public void findProductByCategory() {
 		if(!FacesContext.getCurrentInstance().isPostback()) {
-			if(currentSelectedProductId > 0) {
-				productsByCategory = productRepository.findAllByCataegory(currentSelectedProductId);
+			if(currentSelectedCategoryId > 0) {
+				productsByCategory = productRepository.findAllByCataegory(currentSelectedCategoryId);
 				if(productsByCategory.size() == 0) {
 					Messages.addGlobalInfo("There are no products for categoryId {0}", currentSelectedProductId);
 				}
@@ -75,6 +76,14 @@ public class ProductController {
 
 	public Product getCurrentSelectedProduct() {
 		return currentSelectedProduct;
+	}
+
+	public int getCurrentSelectedCategoryId() {
+		return currentSelectedCategoryId;
+	}
+
+	public void setCurrentSelectedCategoryId(int currentSelectedCategoryId) {
+		this.currentSelectedCategoryId = currentSelectedCategoryId;
 	}
 	
 	
