@@ -12,7 +12,7 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
 	
-	<ui:param name="title" value="Northwind - Customer Detail" />
+	<ui:param name="title" value="Chinook - Customer Detail" />
 	
 	<ui:define name="externalstyles">
 	</ui:define>
@@ -29,34 +29,23 @@
 		<b:messages id="messages" />
 	
 		<b:form id="customerForm">
-			<b:dataTable value="#{customerController.currentSelectedCustomer.customerLines}" var="item">
-				<b:dataTableColumn>
-					<f:facet name="header">Customer ID</f:facet>
-					<h:outputText value="#{item.customerID}" />
-				</b:dataTableColumn>
-				<b:dataTableColumn>
-					<f:facet name="header">Company Name</f:facet>
-					<h:outputText value="#{item.companyName}" />
-				</b:dataTableColumn>
-				<b:dataTableColumn>
-					<f:facet name="header">Contact Name</f:facet>
-					<h:outputText value="#{item.contactName}"></h:outputText>
-				</b:dataTableColumn>
-				<b:dataTableColumn>
-					<f:facet name="header">Contact Title</f:facet>
-					<h:outputText value="#{item.contactTitle}" />
-				</b:dataTableColumn>
-				<b:dataTableColumn>
-					<f:facet name="header">Address</f:facet>
-					<h:outputText value="#{item.address}"></h:outputText>
-				</b:dataTableColumn>
-				<b:dataTableColumn>
-					<f:facet name="header">City</f:facet>
-					<h:outputText value="#{item.city}">
-						<f:convertNumber type="currency"/>
-					</h:outputText>
-				</b:dataTableColumn>
-			</b:dataTable>
+			<b:panel collapsible="false" 
+			rendered="#{customerController.currentSelectedCustomer != null}">
+				<f:facet name="header">Customer Detail</f:facet>
+				<b:inputText label="Customer ID" 
+					value="#{customerController.currentSelectedCustomer.customerID}" 
+					readonly="true" />
+				<b:inputText label="Company" 
+					value="#{customerController.currentSelectedCustomer.company}" 
+					readonly="true" />
+				<b:inputText label="First Name" 
+					value="#{customerController.currentSelectedCustomer.firstName}" 
+					readonly="true" />	
+				<b:inputText label="Last Name" 
+					value="#{customerController.currentSelectedCustomer.lastName}" 
+					readonly="true" />	
+					
+			</b:panel>
 		</b:form>	
 	
 				
