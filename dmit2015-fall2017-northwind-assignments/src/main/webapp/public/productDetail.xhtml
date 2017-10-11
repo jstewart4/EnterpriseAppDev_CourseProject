@@ -12,7 +12,7 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
 	
-	<ui:param name="title" value="Northwind - Products" />
+	<ui:param name="title" value="Northwind - Product Detail" />
 	
 	<ui:define name="externalstyles">
 	</ui:define>
@@ -21,31 +21,50 @@
 	</ui:define>
 
 	<ui:define name="maincontent">
-		<h1>List of Products</h1>
+		<h1> Product Detail</h1>
 		
-		<b:dataTable value="#{productController.products}" var="currentProduct">
-        <b:dataTableColumn value="#{currentProduct.productID}" label="ID"/>
-        <b:dataTableColumn value="#{currentProduct.productName}" />
-        <b:dataTableColumn>
-        	<f:facet name="header">
-				Unit Price
-			</f:facet>
-			<h:outputText value="#{currentProduct.unitPrice}">
-				<f:convertNumber type="currency" />
-			</h:outputText>
-        </b:dataTableColumn> 
-        
-        <b:dataTableColumn value="#{currentProduct.quantityPerUnit}"/>
-        <b:dataTableColumn value="#{currentProduct.supplier.companyName}" label="Supplier"/>
-        
-        <b:dataTableColumn> 
-        	<f:facet name="header">Action</f:facet>
-					<b:navCommandLink outcome="productDetail.xhtml">
-						view tracks
-						<f:param name="id" value="#{currentProduct.productID}" />
-					</b:navCommandLink>
-        </b:dataTableColumn>
-    </b:dataTable>
+		<f:metadata>
+			<f:viewParam name="id" value="#{productController.currentSelectedProductId}" />
+			<f:event listener="#{productController.findProduct()}" type="preRenderView"/>
+		</f:metadata>
+		
+		<b:messages id="messages" />
+		
+		<b:form id="productDetailForm">
+			<b:panel style="width:600px" collapsible="false" rendered="#{productController.currentSelectedProduct != null}">
+				<h:outputLabel value="Product ID: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.productID}" /> <br/>
+				
+				<h:outputLabel value="Product Name: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.productName}" /> <br/>
+				
+				<h:outputLabel value="Supplier: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.supplier.companyName}" /> <br/>
+				
+				<h:outputLabel value="Category: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.category.categoryName}" /> <br/>
+				
+				<h:outputLabel value="Quantity Per Unit: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.quantityPerUnit}" /> <br/>
+				
+				<h:outputLabel value="Unit Price: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.unitPrice}" > 
+					<f:convertNumber type="currency" />
+				</h:outputText> <br/>
+				
+				<h:outputLabel value="Units in Stock: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.unitsInStock}" /> <br/>
+				
+				<h:outputLabel value="Units on Order: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.unitsOnOrder}" /> <br/>
+				
+				<h:outputLabel value="Reorder Level: "  style="width:170px;"/>
+				<h:outputText value="#{productController.currentSelectedProduct.reorderLevel}" /> <br/>
+				
+				<h:outputLabel value="Discontinued: "  style="width:170px;"/>
+				<h:outputText value="#{(productController.currentSelectedProduct.discontinued == 0) ? false : true}" /> <br/>
+			</b:panel>
+		</b:form>
 				
 	</ui:define>
 
