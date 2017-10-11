@@ -1,0 +1,56 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
+	
+	<ui:param name="title" value="Chinook - Supplier Detail" />
+	
+	<ui:define name="externalstyles">
+	</ui:define>
+	
+	<ui:define name="internalstyles">
+	</ui:define>
+
+	<ui:define name="maincontent">
+		<f:metadata>
+			<f:viewParam name = "id" value = "#{supplierController.currentSelectedSupplierId}" />
+			<f:event listener="#{supplierController.findSupplier()}" type="preRenderView"></f:event>
+		</f:metadata>
+		
+		<b:messages id="messages"></b:messages>
+		
+		<h:form>
+			<b:panel collapsible="false" rendered="#{supplierController.currentSelectedSupplier != null}">
+				<f:facet name="header">Supplier Details</f:facet>
+				<b:inputText label="Supplier ID" 
+				value="#{supplierController.currentSelectedSupplier.supplierID}" 
+				readonly="true"></b:inputText>
+				<b:inputText label="Company Name" 
+				value="#{supplierController.currentSelectedSupplier.companyName}" 
+				readonly="true"></b:inputText>
+				<b:inputText label="Contact Name" 
+				value="#{supplierController.currentSelectedSupplier.contactName}" 
+				readonly="true"></b:inputText>
+				<b:inputText label="Contact Title" 
+				value="#{supplierController.currentSelectedSupplier.contactTitle}" 
+				readonly="true"></b:inputText>
+				<b:inputText label="Address" 
+				value="#{supplierController.currentSelectedSupplier.address}" 
+				readonly="true"></b:inputText>
+				<b:inputText label="City" 
+				value="#{supplierController.currentSelectedSupplier.city}" 
+				readonly="true"></b:inputText>
+			</b:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
