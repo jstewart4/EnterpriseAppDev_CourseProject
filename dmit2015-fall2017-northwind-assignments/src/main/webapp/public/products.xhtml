@@ -24,7 +24,7 @@
 		<h1>List of Products</h1>
 		
 		<b:dataTable value="#{productController.products}" var="currentProduct">
-        <b:dataTableColumn value="#{currentProduct.productID}" />
+        <b:dataTableColumn value="#{currentProduct.productID}" label="ID"/>
         <b:dataTableColumn value="#{currentProduct.productName}" />
         <b:dataTableColumn>
         	<f:facet name="header">
@@ -37,7 +37,14 @@
         
         <b:dataTableColumn value="#{currentProduct.quantityPerUnit}"/>
         <b:dataTableColumn value="#{currentProduct.supplier.companyName}" label="Supplier"/>
-        <b:dataTableColumn value="#{(currentProduct.discontinued == 0) ? 'false' : 'true'}" label="Discontinued" />
+        
+        <b:dataTableColumn> 
+        	<f:facet name="header">Action</f:facet>
+					<b:navCommandLink outcome="productDetail.xhtml">
+						view detail
+						<f:param name="id" value="#{currentProduct.productID}" />
+					</b:navCommandLink>
+        </b:dataTableColumn>
     </b:dataTable>
 				
 	</ui:define>

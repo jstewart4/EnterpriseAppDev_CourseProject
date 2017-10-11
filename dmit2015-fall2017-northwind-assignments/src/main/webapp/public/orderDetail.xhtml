@@ -12,7 +12,7 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
 	
-	<ui:param name="title" value="Northwind - Orders" />
+	<ui:param name="title" value="Northwind - Order Detail" />
 	
 	<ui:define name="externalstyles">
 	</ui:define>
@@ -85,8 +85,58 @@
 				</b:inputText>
 				
 				<b:inputText label="Ship Via" 
-					value="#{orderController.selectedOrder.sh}" 
-					readonly="true" span="6"/> 
+					value="#{orderController.selectedOrder.shipper.companyName}" 
+					readonly="true" span="3"/> 
+					
+				<b:dataTable value="#{orderController.selectedOrder.orderDetails}" var="detail">
+					<b:dataTableColumn value="#{detail.product.productID}" >
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn value="#{detail.product.productName}" >
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn value="#{detail.quantity}" >
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn>
+						<f:facet name="header">Discount</f:facet>
+						<h:outputText value="#{detail.discount}" > 
+							<f:convertNumber type="percent"/>
+						</h:outputText>
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn>
+						<f:facet name="header">Unit Price</f:facet>
+						<h:outputText value="#{detail.unitPrice}" > 
+							<f:convertNumber type="currency"/>
+						</h:outputText>
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn>
+						<f:facet name="header">Extended Price</f:facet>
+						<h:outputText value="#{(detail.unitPrice - (detail.unitPrice * detail.discount)) * detail.quantity}" > 
+							<f:convertNumber type="currency"/>
+						</h:outputText>
+					</b:dataTableColumn>
+				</b:dataTable>
+				
+				<b:inputText label="Sub Total" 
+					value="#{orderController.subTotal}" 
+					readonly="true" span="4" > 
+						<f:convertNumber type="currency"/>
+				</b:inputText> 
+					
+				<b:inputText label="Freight" 
+					value="#{orderController.selectedOrder.freight}" 
+					readonly="true" span="4" > 
+						<f:convertNumber type="currency"/>
+				</b:inputText> 
+				
+				<b:inputText label="Sales Total" 
+					value="#{orderController.salesTotal}" 
+					readonly="true" span="4" > 
+						<f:convertNumber type="currency"/>
+				</b:inputText> 
 				
 			</b:panel>
 			

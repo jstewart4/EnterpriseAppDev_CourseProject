@@ -44,6 +44,18 @@
 						Reports To
 					</f:facet>
 					<h:outputText value="#{employee.employee.firstName} #{employee.employee.lastName}" />
+				</b:dataTableColumn>
+				<b:dataTableColumn>
+					<f:facet name="header">Action</f:facet>
+					<b:navCommandLink outcome="orderDetail.xhtml">
+						view orders
+						
+					</b:navCommandLink>
+					<br />
+					<b:navCommandLink outcome="employeeDetail.xhtml">
+						view detail
+						<f:param name="id" value="#{employee.employeeID}" />
+					</b:navCommandLink>
 				</b:dataTableColumn>								
 			</b:dataTable>
 		</h:form>
