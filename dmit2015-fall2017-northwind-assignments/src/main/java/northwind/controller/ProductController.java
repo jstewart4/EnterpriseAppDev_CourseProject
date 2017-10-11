@@ -31,8 +31,11 @@ public class ProductController {
 	
 	
 	private List<Product> productsByCategory; //getter
+	private List<Product> productsBySupplier;
+	private int currentSelectedSupplierId;
 	private int currentSelectedProductId; //getter/setter
 	private int currentSelectedCategoryId; //getter/setter
+
 	private Product currentSelectedProduct; //getter
 	
 	public void findProduct() {
@@ -52,7 +55,7 @@ public class ProductController {
 	public void findProductByCategory() {
 		if(!FacesContext.getCurrentInstance().isPostback()) {
 			if(currentSelectedCategoryId > 0) {
-				productsByCategory = productRepository.findAllByCataegory(currentSelectedCategoryId);
+				productsByCategory = productRepository.findAllByCategory(currentSelectedCategoryId);
 				if(productsByCategory.size() == 0) {
 					Messages.addGlobalInfo("There are no products for categoryId {0}", currentSelectedProductId);
 				}
@@ -73,6 +76,11 @@ public class ProductController {
 	public List<Product> getProductsByCategory() {
 		return productsByCategory;
 	}
+	
+
+	public List<Product> getProductsBySupplier() {
+		return productsBySupplier;
+	}
 
 	public Product getCurrentSelectedProduct() {
 		return currentSelectedProduct;
@@ -85,6 +93,30 @@ public class ProductController {
 	public void setCurrentSelectedCategoryId(int currentSelectedCategoryId) {
 		this.currentSelectedCategoryId = currentSelectedCategoryId;
 	}
+	
+	
+
+	public int getCurrentSelectedSupplierId() {
+		return currentSelectedSupplierId;
+	}
+
+	public void setCurrentSelectedSupplierId(int currentSelectedSupplierId) {
+		this.currentSelectedSupplierId = currentSelectedSupplierId;
+	}
+
+	public void findProductsBySupplier() {
+		if(!FacesContext.getCurrentInstance().isPostback()) {
+			if(currentSelectedSupplierId > 0) {
+				productsBySupplier = productRepository.findAllBySupplier(currentSelectedSupplierId);
+				if(productsBySupplier.size() == 0) {
+					Messages.addGlobalInfo("There are no products for supplierId {0}", currentSelectedSupplierId);
+				}
+			} else {
+				Messages.addFlashGlobalError("Bad request. A valid supplierId is required.");
+			}
+		}
+	}
+
 	
 	
 	

@@ -12,10 +12,17 @@ public class ProductRepository extends AbstractJpaRepository<Product> {
 		
 	}
 	
-	public List<Product> findAllByCataegory(int categoryId) {
+	public List<Product> findAllByCategory(int categoryId) {
 		return getEntityManager().createQuery(
 				"SELECT p FROM Product p WHERE p.category.categoryID = :idValue", Product.class)
 				.setParameter("idValue", categoryId)
+				.getResultList();
+	}
+	
+	public List<Product> findAllBySupplier(int supplierId) {
+		return getEntityManager().createQuery(
+				"SELECT p FROM Product p WHERE p.supplier.supplierID = :idValue", Product.class)
+				.setParameter("idValue", supplierId)
 				.getResultList();
 	}
 

@@ -11,12 +11,15 @@ import org.omnifaces.util.Messages;
 
 import northwind.data.OrderRepository;
 import northwind.model.Order;
+import northwind.model.OrderDetail;
 
 @Model
 public class OrderController {
 	
 	private int selectedOrderId; //getter/setter
 	private Order selectedOrder; //getter
+	private double SubTotal;     //getter
+	private double SalesTotal;   //getter
 	
 	public void findOrder() {
 		if(!FacesContext.getCurrentInstance().isPostback()) {
@@ -24,12 +27,21 @@ public class OrderController {
 				selectedOrder = orderRepository.findOne(selectedOrderId);
 				if (selectedOrder == null) {
 					Messages.addGlobalInfo("There is no Order with orderId {0}", selectedOrderId);
+				} else {
+					for (OrderDetail i : selectedOrder.getOrderDetails()) {
+						SubTotal = SubTotal + ( (i.getUnitPrice().doubleValue() - (i.getUnitPrice().doubleValue() * i.getDiscount())) * i.getQuantity());
+					}
+					
+					SalesTotal = SubTotal + selectedOrder.getFreight().doubleValue();
+					
 				}
 			} else {
 				Messages.addGlobalError("Bad Request. Invaild orderId.");
 			}
 		}
 	}
+	
+	
 	
 	@Inject
 	private OrderRepository orderRepository;
@@ -39,38 +51,6 @@ public class OrderController {
 	@PostConstruct
 	void init() {
 		orders = orderRepository.findAll();
-	}
-	
-
-
-	private List<Order> ordersByCustomer;	// getter
-	private String currentSelectedCustomerId;	// getter/setter
-	
-	public void findOrdersByCustomer() {
-		if( !FacesContext.getCurrentInstance().isPostback() ) {
-			// verify that a valid customerId was set
-			if( currentSelectedCustomerId != null && ! currentSelectedCustomerId.isEmpty()) {
-				ordersByCustomer = orderRepository.findAllByCustomerId(currentSelectedCustomerId);
-				if( ordersByCustomer.size() == 0 ) {
-					Messages.addGlobalInfo("There are no orders for customerID {0}", 
-							currentSelectedCustomerId);
-				}
-			} else {
-				Messages.addGlobalError("Bad request. A valid customerID is required.");
-			}
-		}
-	}
-	
-	public String getCurrentSelectedCustomerId() {
-		return currentSelectedCustomerId;
-	}
-
-	public void setCurrentSelectedCustomerId(String currentSelectedCustomerId) {
-		this.currentSelectedCustomerId = currentSelectedCustomerId;
-	}
-
-	public List<Order> getOrdersByCustomer() {
-		return ordersByCustomer;
 	}
 	
 	public List<Order> getOrders() {
@@ -87,6 +67,14 @@ public class OrderController {
 
 	public Order getSelectedOrder() {
 		return selectedOrder;
+	}
+
+	public double getSubTotal() {
+		return SubTotal;
+	}
+
+	public double getSalesTotal() {
+		return SalesTotal;
 	}
 	
 	

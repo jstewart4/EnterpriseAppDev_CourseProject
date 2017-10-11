@@ -9,6 +9,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"  
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
 	
@@ -22,20 +23,34 @@
 
 	<ui:define name="maincontent">
 		<h1>List of Suppliers</h1>
-		
+				
+		<b:messages id="messages"></b:messages>		
 		
 		<h:form>
-			<b:dataTable value="#{supplierController.suppliers}" var="currentSupplier">
-				<b:dataTableColumn value="#{currentSupplier.supplierID}" />
-				<b:dataTableColumn value="#{currentSupplier.companyName}" />
-				<b:dataTableColumn value="#{currentSupplier.contactName}" />
-				<b:dataTableColumn value="#{currentSupplier.contactTitle}" />
-				<b:dataTableColumn value="#{currentSupplier.city}" />
-				<b:dataTableColumn value="#{currentSupplier.country}" />
-				<b:dataTableColumn value="#{currentSupplier.phone}" />
+			<b:dataTable value="#{supplierController.suppliers}" var="supplier">
+				<b:dataTableColumn value="#{supplier.supplierID}">
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{supplier.companyName}">
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{supplier.city}">
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{supplier.country}">
+				</b:dataTableColumn>		
+				<b:dataTableColumn>
+					<f:facet name="header">Action</f:facet>
+					<b:navCommandLink outcome="productsBySupplier.xhtml">
+						view products
+						<f:param name="id" value="#{supplier.supplierID}" />
+						<f:param name="supplierName" value="#{supplier.companyName}" />					
+					</b:navCommandLink>
+					<b:navCommandLink outcome="supplierDetail.xhtml">
+						view details
+						<f:param name="id" value="#{supplier.supplierID}" />					
+					</b:navCommandLink>
+				</b:dataTableColumn>								
 			</b:dataTable>
 		</h:form>
-				
+		
 	</ui:define>
 
 </ui:composition>
