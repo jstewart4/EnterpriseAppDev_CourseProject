@@ -23,13 +23,13 @@
 	<ui:define name="maincontent">
 		<f:metadata>
 			<f:viewParam name="id" value="#{orderController.currentSelectedCustomerId}"></f:viewParam>
-			<f:event listener="#{orderController.findOrdersByGenre()}" type="preRenderView"/>
+			<f:event listener="#{orderController.findOrdersByCustomer()}" type="preRenderView"/>
 		</f:metadata>
 		<h1>Orders from #{param.companyName}</h1>
 		
-		<b:dataTable value="#{orderController.orders}" var="currentOrder">
+		<b:dataTable value="#{orderController.ordersByCustomer}" var="currentOrder">
         	<b:dataTableColumn value="#{currentOrder.orderID}" label="OrderID"/>
-        	<b:dataTableColumn value="#{currentOrder.customer.contactName}" label="Customer"/>
+        	<b:dataTableColumn value="#{currentOrder.customer.companyName}" label="Customer"/>
         	<b:dataTableColumn value="#{currentOrder.employee.firstName} #{currentOrder.employee.lastName}" label="Employee"/>
         	<b:dataTableColumn>
 					<f:facet name="header">
