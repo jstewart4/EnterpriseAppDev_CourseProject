@@ -51,7 +51,7 @@
 				</b:dataTableColumn>	
 				<b:dataTableColumn value="#{product.supplier.companyName}">
 				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{product.discontinued}">
+				<b:dataTableColumn value="#{product.discontinued == 0 ? 'false' : 'true'}" label="Discontinued">
 				</b:dataTableColumn>
 				<b:dataTableColumn>
 					<f:facet name="header">Action</f:facet>
