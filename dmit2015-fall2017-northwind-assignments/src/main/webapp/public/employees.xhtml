@@ -47,18 +47,19 @@
 				</b:dataTableColumn>
 				<b:dataTableColumn>
 					<f:facet name="header">Action</f:facet>
-					<b:navCommandLink outcome="orderDetail.xhtml">
+					<b:navCommandLink outcome="ordersByEmployee.xhtml">
 						view orders
-						
+						<f:param name="id" value="#{employee.employeeID}"/>
+ -						<f:param name="employeeName" value="#{employee.firstName} #{employee.lastName}"/>
 					</b:navCommandLink>
 					<br />
 					<b:navCommandLink outcome="employeeDetail.xhtml">
-						view detail
 						<f:param name="id" value="#{employee.employeeID}" />
+						view detail
 					</b:navCommandLink>
 				</b:dataTableColumn>								
 			</b:dataTable>
-		</h:form>
+		</h:form> 
 				
 	</ui:define>
 

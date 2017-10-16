@@ -29,21 +29,31 @@
 		<b:messages id="messages" />
 	
 		<b:form id="employeeForm">
-			<b:panel collapsible="false" rendered="#{not empty employeeController.currentSelectedEmployee}">
+			<b:panel collapsible="false" rendered="#{not empty employeeController.currentSelectedEmployee}" title="Employee Detail">
 				<f:facet name="header">Employee Detail</f:facet>
 				<b:inputText label="Employee ID" value="#{employeeController.currentSelectedEmployee.employeeID}" readonly="true" />
 				<b:inputText label="Last Name" value="#{employeeController.currentSelectedEmployee.lastName}" readonly="true" />
 				<b:inputText label="First Name" value="#{employeeController.currentSelectedEmployee.firstName}" readonly="true" />
 				<b:inputText label="Title" value="#{employeeController.currentSelectedEmployee.title}" readonly="true" />
 				<b:inputText label="Title Of Courtesy" value="#{employeeController.currentSelectedEmployee.titleOfCourtesy}" readonly="true" />
-				<b:inputText label="Birth Date" value="#{employeeController.currentSelectedEmployee.birthDate}" readonly="true" />
-				<b:inputText label="Hire Date" value="#{employeeController.currentSelectedEmployee.hireDate}" readonly="true" />
+				<b:inputText label="Birth Date" value="#{employeeController.currentSelectedEmployee.birthDate}" readonly="true" >
+					<f:convertDateTime pattern="MMM dd, yyyy"/>
+				</b:inputText>
+				<b:inputText label="Hire Date" value="#{employeeController.currentSelectedEmployee.hireDate}" readonly="true"> 
+					<f:convertDateTime pattern="MMM dd, yyyy"/>
+				</b:inputText>
 				<b:inputText label="Address" value="#{employeeController.currentSelectedEmployee.address}" readonly="true" />
 				<b:inputText label="City" value="#{employeeController.currentSelectedEmployee.city}" readonly="true" />
-				<b:inputText label="Country" value="#{employeeController.currentSelectedEmployee.country}" readonly="true" />
+				<b:inputText label="Region" value="#{employeeController.currentSelectedEmployee.region}" readonly="true" />
 				<b:inputText label="Postal Code" value="#{employeeController.currentSelectedEmployee.postalCode}" readonly="true" />
+				<b:inputText label="Country" value="#{employeeController.currentSelectedEmployee.country}" readonly="true" />
 				<b:inputText label="Home Phone" value="#{employeeController.currentSelectedEmployee.homePhone}" readonly="true" />
 				<b:inputText label="Extension" value="#{employeeController.currentSelectedEmployee.extension}" readonly="true" />
+				<p style="font-weight: bold">Photo</p>
+					<o:graphicImage value="#{employeeController.currentSelectedEmployee.photo}" dataURI="true" />
+				<b:inputTextarea label="Notes" value="#{employeeController.currentSelectedEmployee.notes}" readonly="true"  />
+				<b:inputText label="Reports To" value="#{employeeController.currentSelectedEmployee.employee.firstName} #{employeeController.currentSelectedEmployee.employee.lastName}" readonly="true" />
+				<b:inputText label="Photo Path" value="#{employeeController.currentSelectedEmployee.photoPath}" readonly="true" />
 			</b:panel>
 		</b:form>	
 	
