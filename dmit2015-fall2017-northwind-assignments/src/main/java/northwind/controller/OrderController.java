@@ -20,6 +20,8 @@ public class OrderController {
 	private Order selectedOrder; //getter
 	private double SubTotal;     //getter
 	private double SalesTotal;   //getter
+	private List<Order> ordersByCustomer;	// getter
+	private String currentSelectedCustomerId;	// getter/setter
 	
 	public void findOrder() {
 		if(!FacesContext.getCurrentInstance().isPostback()) {
@@ -40,6 +42,24 @@ public class OrderController {
 			}
 		}
 	}
+	
+	
+    public void findOrdersByCustomer() {
+    	if( !FacesContext.getCurrentInstance().isPostback() ) {
+	 		// verify that a valid customerId was set
+	 		if( currentSelectedCustomerId != null && ! currentSelectedCustomerId.isEmpty()) {
+	 			ordersByCustomer = orderRepository.findAllByCustomerId(currentSelectedCustomerId);
+	 			if( ordersByCustomer.size() == 0 ) {
+	 				Messages.addGlobalInfo("There are no orders for customerID {0}", 
+	 							currentSelectedCustomerId);
+	 				}
+	 			} else {
+	 				Messages.addGlobalError("Bad request. A valid customerID is required.");
+	 			}
+	 		}
+	 	}
+	 	
+	 	
 	
 	
 	
@@ -77,6 +97,16 @@ public class OrderController {
 		return SalesTotal;
 	}
 	
-	
+	public String getCurrentSelectedCustomerId() {
+ 		return currentSelectedCustomerId;
+ 	}
+ 
+ 	public void setCurrentSelectedCustomerId(String currentSelectedCustomerId) {
+ 		this.currentSelectedCustomerId = currentSelectedCustomerId;
+ 	}
+ 
+ 	public List<Order> getOrdersByCustomer() {
+ 		return ordersByCustomer;
+ 	}
 
 }

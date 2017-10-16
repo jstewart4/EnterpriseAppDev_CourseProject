@@ -29,22 +29,27 @@
 		<b:messages id="messages" />
 	
 		<b:form id="customerForm">
-			<b:panel collapsible="false" 
+			<b:panel collapsible="false" title="Customer Detail"
 			rendered="#{customerController.currentSelectedCustomer != null}">
 				<f:facet name="header">Customer Detail</f:facet>
 				<b:inputText label="Customer ID" 
 					value="#{customerController.currentSelectedCustomer.customerID}" 
 					readonly="true" />
 				<b:inputText label="Company" 
-					value="#{customerController.currentSelectedCustomer.company}" 
+					value="#{customerController.currentSelectedCustomer.companyName}" 
 					readonly="true" />
-				<b:inputText label="First Name" 
-					value="#{customerController.currentSelectedCustomer.firstName}" 
+				<b:inputText label="Contact Name" 
+					value="#{customerController.currentSelectedCustomer.contactName}" 
 					readonly="true" />	
-				<b:inputText label="Last Name" 
-					value="#{customerController.currentSelectedCustomer.lastName}" 
+				<b:inputText label="Contact Title" 
+					value="#{customerController.currentSelectedCustomer.contactTitle}" 
 					readonly="true" />	
-					
+				<b:inputText label="Address" 
+					value="#{customerController.currentSelectedCustomer.address}" 
+					readonly="true" />	
+				<b:inputText label="City" 
+					value="#{customerController.currentSelectedCustomer.city}" 
+					readonly="true" />						
 			</b:panel>
 		</b:form>	
 	

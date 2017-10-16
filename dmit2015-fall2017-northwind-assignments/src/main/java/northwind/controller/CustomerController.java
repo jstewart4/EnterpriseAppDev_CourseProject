@@ -15,27 +15,26 @@ import northwind.model.Customer;
 @Model
 public class CustomerController {
 	
-	private String currentSelectedCustomerId;		// getter/setter
-	private Customer currentSelectedCustomer;	// getter
 	
-	public void findCustomer() {
-		if( !FacesContext.getCurrentInstance().isPostback() ) {
-			if( currentSelectedCustomerId != "") {
-				currentSelectedCustomer = customerRepository.find(currentSelectedCustomerId);
-				if( currentSelectedCustomer == null ) {
-					Messages.addGlobalInfo("There is no customer with customerID {0}", 
-							currentSelectedCustomerId);
-				} else {
-					Messages.addGlobalInfo("Successfully retreived customer info.");
-				}
-			} else {
-				Messages.addGlobalError("Bad request. A valid customerID is required.");
-			}
-		}		
-	}
-
-
-
+	private String currentSelectedCustomerId;		// getter/setter
+	private Customer currentSelectedCustomer;	   // getter
+	 	
+	 	public void findCustomer() {
+	 		if( !FacesContext.getCurrentInstance().isPostback() ) {
+	 			if( currentSelectedCustomerId != "") {
+	 				currentSelectedCustomer = customerRepository.find(currentSelectedCustomerId);
+	 				if( currentSelectedCustomer == null ) {
+	 					Messages.addGlobalInfo("There is no customer with customerID {0}", 
+	 							currentSelectedCustomerId);
+	 				} else {
+	 					Messages.addGlobalInfo("Successfully retreived customer info.");
+	 				}
+	 			} else {
+	 				Messages.addGlobalError("Bad request. A valid customerID is required.");
+	 			}
+	 		}		
+	 	}
+	
 	@Inject
 	private CustomerRepository customerRepository;
 	
@@ -45,21 +44,21 @@ public class CustomerController {
 	void init() {
 		customers = customerRepository.findAll();
 	}
-
+	
 	public List<Customer> getCustomers() {
 		return customers;
 	}
 	
 	public String getCurrentSelectedCustomerId() {
-		return currentSelectedCustomerId;
+		 return currentSelectedCustomerId;
 	}
-
+		  
 	public void setCurrentSelectedCustomerId(String currentSelectedCustomerId) {
-		this.currentSelectedCustomerId = currentSelectedCustomerId;
+		 this.currentSelectedCustomerId = currentSelectedCustomerId;
 	}
 
 	public Customer getCurrentSelectedCustomer() {
-		return currentSelectedCustomer;
+		 return currentSelectedCustomer;
 	}
-		
+
 }

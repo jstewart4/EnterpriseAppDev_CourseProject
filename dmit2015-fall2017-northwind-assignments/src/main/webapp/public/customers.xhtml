@@ -32,26 +32,32 @@
 				<b:dataTableColumn value="#{customer.companyName}">
 				</b:dataTableColumn>
 				<b:dataTableColumn value="#{customer.contactName}">
+				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{customer.contactTitle}">
+				</b:dataTableColumn>						
+				<b:dataTableColumn value="#{customer.country}">
 				</b:dataTableColumn>			
 				<b:dataTableColumn value="#{customer.phone}">
 				</b:dataTableColumn>		
+				
 				<b:dataTableColumn>
-					<f:facet name="header">Action</f:facet>
-					<b:navCommandLink outcome="ordersByCustomer.xhtml">
-						view orders
-						<f:param name="id" value="#{customer.customerID}"/>
-						<f:param name="contactName" value="#{customer.contactName}"/>
-					</b:navCommandLink>
-					<b:navCommandLink outcome="customerDetail.xhtml">
-						view detail
-						<f:param name="id" value="#{customer.customerID}"/>
-						<f:param name="companyName" value="#{customer.companyName}"/>
-						<f:param name="contactName" value="#{customer.contactName}"/>
-						<f:param name="contactTitle" value="#{customer.contactTitle}"/>
-						<f:param name="address" value="#{customer.address}"/>
-						<f:param name="city" value="#{customer.city}"/>
-					</b:navCommandLink>
-				</b:dataTableColumn>			
+ -					<f:facet name="header">Action</f:facet>
+ -					<b:navCommandLink outcome="ordersByCustomer.xhtml">
+ -						view orders
+ -						<f:param name="id" value="#{customer.customerID}"/>
+ -						<f:param name="companyName" value="#{customer.companyName}"/>
+ -					</b:navCommandLink>
+ -					<b:navCommandLink outcome="customerDetail.xhtml">
+ -						view detail
+ -						<f:param name="id" value="#{customer.customerID}"/>
+ -						<f:param name="companyName" value="#{customer.companyName}"/>
+ -						<f:param name="contactName" value="#{customer.contactName}"/>
+ -						<f:param name="contactTitle" value="#{customer.contactTitle}"/>
+ -						<f:param name="address" value="#{customer.address}"/>
+ -						<f:param name="city" value="#{customer.city}"/>
+ -					</b:navCommandLink>
+ -				</b:dataTableColumn>
+						
 			</b:dataTable>
 		</h:form>
 		
