@@ -37,10 +37,10 @@
 				<b:inputText label="Title" value="#{employeeController.currentSelectedEmployee.title}" readonly="true" />
 				<b:inputText label="Title Of Courtesy" value="#{employeeController.currentSelectedEmployee.titleOfCourtesy}" readonly="true" />
 				<b:inputText label="Birth Date" value="#{employeeController.currentSelectedEmployee.birthDate}" readonly="true" >
-					<f:convertDateTime pattern="MMM dd, yyyy"/>
+					<f:convertDateTime pattern="yyyy-MM-dd"/>
 				</b:inputText>
 				<b:inputText label="Hire Date" value="#{employeeController.currentSelectedEmployee.hireDate}" readonly="true"> 
-					<f:convertDateTime pattern="MMM dd, yyyy"/>
+					<f:convertDateTime pattern="yyyy-MM-dd"/>
 				</b:inputText>
 				<b:inputText label="Address" value="#{employeeController.currentSelectedEmployee.address}" readonly="true" />
 				<b:inputText label="City" value="#{employeeController.currentSelectedEmployee.city}" readonly="true" />
