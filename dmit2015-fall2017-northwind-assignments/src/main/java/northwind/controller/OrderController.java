@@ -12,6 +12,7 @@ import org.omnifaces.util.Messages;
 import northwind.data.OrderRepository;
 import northwind.model.Order;
 import northwind.model.OrderDetail;
+import northwind.report.AllSalesReport;
 
 @Model
 public class OrderController {
@@ -88,6 +89,10 @@ public class OrderController {
 	
 	public List<Order> getOrders() {
 		return orders;
+	}
+	
+	public List<AllSalesReport> retreiveOrderSales() {
+		return orderRepository.findOrderSales();
 	}
 
 	public int getSelectedOrderId() {
