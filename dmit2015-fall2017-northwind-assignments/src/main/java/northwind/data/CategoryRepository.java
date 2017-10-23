@@ -14,11 +14,11 @@ public class CategoryRepository extends AbstractJpaRepository<Category> {
 	
 	public List<CategorySalesReport> findCategoryRevenue(int year) {
 		return getEntityManager().createQuery(
-				"SELECT new chinook.report.CategorySalesReport( c.categoryName, SUM( (od.unitPrice - (od.unitPrice * od.discount)) * od.quantity ) AS TotalSales )"
-				+ "FROM OrderDetail od, IN (od.product) p, IN (p.category) c "
-				+ "WHERE YEAR(od.order.shippedDate) = yearValue" 
-				+ "GROUP BY c.name "
-				+ "ORDER BY c.name"
+				"SELECT new northwind.report.CategorySalesReport( c.categoryName, SUM( (o.unitPrice - (o.unitPrice * o.discount)) * o.quantity ) AS categoryRevenue ) "
+				+ "FROM OrderDetail o, IN (o.product) p, IN (p.category) c "
+				+ "WHERE YEAR(o.order.shippedDate) = :yearValue " 
+				+ "GROUP BY c.categoryName "
+				+ "ORDER BY c.categoryName "
 				, CategorySalesReport.class)
 				.setParameter("yearValue", year)
 				.getResultList();
