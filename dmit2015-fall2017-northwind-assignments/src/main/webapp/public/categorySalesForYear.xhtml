@@ -24,21 +24,21 @@
 		
 		<hf:chart type="pie" title="Category Sales for 1997">
         	<hf:chartSerie name="Category Sales" 
-        		value="#{categoryController.retrieveCategorySales()}" var="point" point="#{point.categoryRevenue}"  tickLabel="#{point.categoryName}"
+        		value="#{categoryController.retrieveCategorySales(1997)}" var="point" point="#{point.categoryRevenue}"  tickLabel="#{point.categoryName}"
         			dataLabel="&lt;b>{point.name}&lt;/b> ({point.percentage:.1f} %) &lt;i>({point.y})&lt;/i>"/>
      
 		</hf:chart>
 		
 		<hf:chart type="bar" title="Category Sales for 1997" yaxisLabel="Sales Amount" xaxisLabel="Category" >
 			<hf:chartSerie name="Category Sales" 
-        		value="#{categoryController.retrieveCategorySales()}" var="point" point="#{point.categoryRevenue}"  tickLabel="#{point.categoryName}"
+        		value="#{categoryController.retrieveCategorySales(1997)}" var="point" point="#{point.categoryRevenue}"  tickLabel="#{point.categoryName}"
         			dataLabel="{point.y: .2f}"/>
         			
 	    </hf:chart>
 	    
 	    <hf:chart type="column" title="Category Sales for 1997" yaxisLabel="Sales Amount" xaxisLabel="Category"> 
 	    	<hf:chartSerie name="Category Sales" 
-        		value="#{categoryController.retrieveCategorySales()}" var="point" point="#{point.categoryRevenue}"  tickLabel="#{point.categoryName}"
+        		value="#{categoryController.retrieveCategorySales(1997)}" var="point" point="#{point.categoryRevenue}"  tickLabel="#{point.categoryName}"
         			dataLabel="{point.y: .2f}"/>
 	    
 	    </hf:chart>

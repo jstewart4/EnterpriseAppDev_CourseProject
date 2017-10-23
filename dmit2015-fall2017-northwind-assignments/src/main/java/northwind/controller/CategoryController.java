@@ -27,8 +27,8 @@ public class CategoryController {
 		return categories;
 	}
 	
-	public List<CategorySalesReport> retrieveCategorySales() {
-		return categoryRepository.findCategoryRevenue(1997);
+	public List<CategorySalesReport> retrieveCategorySales(int year) {
+		return categoryRepository.findCategoryRevenue(year);
 	}
 	
 }
