@@ -2,6 +2,7 @@ package northwind.data;
 
 import java.util.List;
 
+import northwind.report.AllSalesReport;
 import northwind.model.Order;
 
 public class OrderRepository extends AbstractJpaRepository<Order> {
@@ -33,5 +34,14 @@ public class OrderRepository extends AbstractJpaRepository<Order> {
 			.getResultList();
 	}
 
-
+	public List<AllSalesReport> findOrderSales() {
+		return getEntityManager().createQuery(
+	"SELECT new northwind.report.AllSalesReport(o.order, SUM(o.unitPrice * o.quantity) ) " 
+		+ " FROM OrderDetails od, IN (od.order) o "
+		+ " GROUP BY o.order "
+		+ " ORDER BY o.order ", 
+			AllSalesReport.class)
+				.getResultList();
+	}
+	
 }
