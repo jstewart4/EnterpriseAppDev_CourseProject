@@ -12,6 +12,7 @@ import org.omnifaces.util.Messages;
 import northwind.data.ProductRepository;
 import northwind.model.Product;
 import northwind.report.ExpensiveProductReport;
+import northwind.report.ProductSalesByYearReport;
 
 @Model
 public class ProductController {
@@ -32,6 +33,10 @@ public class ProductController {
 	
 	public List<ExpensiveProductReport> retrieveExpensiveProducts() {
 		return productRepository.findTenMostExpensive();
+	}
+	
+	public List<ProductSalesByYearReport> retrieveProductSalesForYear() {
+		return productRepository.findProductSales();
 	}
 	
 	private List<Product> productsByCategory; //getter
