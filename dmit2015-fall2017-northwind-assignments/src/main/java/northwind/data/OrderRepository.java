@@ -1,8 +1,8 @@
 package northwind.data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import northwind.report.AllSalesReport;
 import northwind.model.Order;
 
 public class OrderRepository extends AbstractJpaRepository<Order> {
@@ -34,14 +34,26 @@ public class OrderRepository extends AbstractJpaRepository<Order> {
 			.getResultList();
 	}
 
-	public List<AllSalesReport> findOrderSales() {
-		return getEntityManager().createQuery(
-	"SELECT new northwind.report.AllSalesReport(o.order, SUM(o.unitPrice * o.quantity) ) " 
-		+ " FROM OrderDetails od, IN (od.order) o "
-		+ " GROUP BY o.order "
-		+ " ORDER BY o.order ", 
-			AllSalesReport.class)
-				.getResultList();
-	}
+	public BigDecimal findOrderSales(int year, int month) {
+	
+		BigDecimal allSales = BigDecimal.ZERO;
+		try{
+			allSales = getEntityManager().createQuery(
+
+				"SELECT SUM(od.unitPrice * od.quantity ) AS orderRevenue "
+				+ "FROM OrderDetail od, IN (od.order) o "
+				+ "WHERE YEAR(o.shippedDate) = :yearValue AND MONTH(o.shippedDate) = :monthValue " 
+				, BigDecimal.class)
+				.setParameter("yearValue", year)
+				.setParameter("monthValue", month)
+				.getSingleResult();
+		}catch (Exception e) {
+			
+		}
+		if (allSales == null) {
+			allSales = BigDecimal.valueOf(0.00);
+		}
+		return allSales;
+	}	
 	
 }
