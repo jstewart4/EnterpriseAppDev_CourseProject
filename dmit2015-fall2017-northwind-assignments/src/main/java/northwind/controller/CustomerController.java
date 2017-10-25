@@ -11,6 +11,7 @@ import org.omnifaces.util.Messages;
 
 import northwind.data.CustomerRepository;
 import northwind.model.Customer;
+import northwind.report.CustomerSales;
 
 @Model
 public class CustomerController {
@@ -60,5 +61,14 @@ public class CustomerController {
 	public Customer getCurrentSelectedCustomer() {
 		 return currentSelectedCustomer;
 	}
-
+	
+	public List<CustomerSales> retrieveCustomerSales(){
+		return customerRepository.findCustomerSales();
+	}
+	
+	public List<CustomerSales> retrieveTopCustomerSales(){
+		return customerRepository.findTopCustomerSales();
+	}
 }
+
+
