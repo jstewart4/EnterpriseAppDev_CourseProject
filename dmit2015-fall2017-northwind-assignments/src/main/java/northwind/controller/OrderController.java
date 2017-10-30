@@ -94,8 +94,8 @@ public class OrderController {
 	
 	public List<AllSalesReport> retreiveOrderSales(int year) {
 		List<AllSalesReport> allSales = new ArrayList<AllSalesReport>();
-		for (int i = 0; i < 12; i++ ) {
-			AllSalesReport report = new AllSalesReport(i+1, orderRepository.findOrderSales(year, i));
+		for (int i = 1; i <= 12; i++ ) {
+			AllSalesReport report = new AllSalesReport(i, orderRepository.findOrderSales(year, i));
 			//System.out.println(report);
 			allSales.add(report);
 		}
