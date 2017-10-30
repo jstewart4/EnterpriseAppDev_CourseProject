@@ -3,7 +3,7 @@ package northwind.report;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CustomerSales {
+public class CustomerSales implements Comparable<CustomerSales> {
 	private String companyName; // getter + setter
 	private String customerID;
 	private BigDecimal totalSales; // getter + setter
@@ -21,6 +21,10 @@ public class CustomerSales {
 		this.companyName = companyName;
 		this.customerID = customerID;
 		this.totalSales = BigDecimal.valueOf(totalSales).setScale(2, RoundingMode.HALF_UP);
+	}
+	
+	public int compareTo(CustomerSales other) {
+		return companyName.compareTo(other.companyName);
 	}
 
 	public String getCompanyName() {

@@ -28,8 +28,8 @@
 			<h1>Customer Sales</h1>
 		</b:jumbotron>
 		
-		<hf:chart type="bar" title="Top 5 Customers" >
-			<hf:chartSerie name="Customer Sales" 
+		<hf:chart type="bar" title="Top 5 Customers" xaxisLabel="Customer" yaxisLabel="Customer Total">
+			<hf:chartSerie name="Customer Total" 
 			value="#{customerController.retrieveCustomerSales()}" 
 			var="point" 
 			point="#{point.totalSales}"  
@@ -37,8 +37,8 @@
 			dataLabel="{#{point.companyName}} {point.y}" />
 		</hf:chart>
 		
-		<hf:chart type="column" title="Top 5 Customers">
-			<hf:chartSerie name="Customer Sales" 
+		<hf:chart type="column" title="Top 5 Customers" xaxisLabel="Customer" yaxisLabel="Customer Total">
+			<hf:chartSerie name="Customer Total" 
 			value="#{customerController.retrieveCustomerSales()}" 
 			var="point" 
 			point="#{point.totalSales}"  

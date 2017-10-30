@@ -1,5 +1,6 @@
 package northwind.data;
 
+import java.util.Collections;
 import java.util.List;
 
 import northwind.model.Customer;
@@ -36,6 +37,7 @@ public class CustomerRepository extends AbstractJpaRepository<Customer> {
 						.setParameter("yearDate", 1997)
 				.getResultList();
 		List<CustomerSales> topSales = sales.subList(0, (int) Math.rint((sales.size() * 0.25)) + 1);
+		Collections.sort(topSales);
 		return topSales;
 			}
 }
