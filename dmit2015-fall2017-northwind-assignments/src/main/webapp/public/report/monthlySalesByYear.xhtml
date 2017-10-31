@@ -33,6 +33,11 @@
      		<hf:chartSerie name="1997" value="#{orderController.retreiveOrderSales(1997)}" var="point" point="#{point.totalSales}" tickLabel="#{point.orderMonth}" />
      		<hf:chartSerie name="1998" value="#{orderController.retreiveOrderSales(1998)}" var="point" point="#{point.totalSales}" tickLabel="#{point.orderMonth}" />
      	</hf:chart>
+     	<hf:chart type="column" var="point" xaxisLabel="Month" title="Monthly Sales By Year">
+     		<hf:chartSerie name="1996" value="#{orderController.retreiveOrderSales(1996)}" var="point" point="#{point.totalSales}" tickLabel="#{point.orderMonth}" />
+     		<hf:chartSerie name="1997" value="#{orderController.retreiveOrderSales(1997)}" var="point" point="#{point.totalSales}" tickLabel="#{point.orderMonth}" />
+     		<hf:chartSerie name="1998" value="#{orderController.retreiveOrderSales(1998)}" var="point" point="#{point.totalSales}" tickLabel="#{point.orderMonth}" />
+     	</hf:chart>
 				
 	</ui:define>
 

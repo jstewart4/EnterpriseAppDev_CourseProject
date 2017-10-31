@@ -40,7 +40,7 @@ public class OrderRepository extends AbstractJpaRepository<Order> {
 		try{
 			allSales = getEntityManager().createQuery(
 
-				"SELECT SUM(od.unitPrice * od.quantity ) AS orderRevenue "
+				"SELECT SUM(od.unitPrice * od.quantity ) "
 				+ "FROM OrderDetail od, IN (od.order) o "
 				+ "WHERE YEAR(o.shippedDate) = :yearValue AND MONTH(o.shippedDate) = :monthValue " 
 				, BigDecimal.class)
@@ -51,7 +51,7 @@ public class OrderRepository extends AbstractJpaRepository<Order> {
 			
 		}
 		if (allSales == null) {
-			allSales = BigDecimal.valueOf(0.00);
+			allSales = BigDecimal.ZERO;
 		}
 		return allSales;
 	}	
