@@ -148,5 +148,14 @@ public class OrderController {
 	public List<Order> getOrdersByEmployee() {
 		return ordersByEmployee;
 	}
+	
+	private String currentStartDate; //getter/setter
+	
+	private String currentEndDate; //getter/setter
+	
+	
+	public void retreiveOrderSalesByRange() {
+		orders = orderRepository.findOrderByDateRange(currentStartDate, currentEndDate);
+	}
 
 }

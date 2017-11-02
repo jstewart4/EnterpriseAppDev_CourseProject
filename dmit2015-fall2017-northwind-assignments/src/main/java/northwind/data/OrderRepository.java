@@ -56,4 +56,14 @@ public class OrderRepository extends AbstractJpaRepository<Order> {
 		return allSales;
 	}	
 	
+	public List<Order> findOrderByDateRange(String startDate, String endDate ) {
+		return getEntityManager().createQuery("SELECT o FROM Order o "
+				+ "WHERE o.orderDate between :startValue and :endValue "
+				, Order.class)
+				.setParameter("startValue", startDate)
+				.setParameter("endValue", endDate)
+				.getResultList();
+		
+	}
+	
 }
