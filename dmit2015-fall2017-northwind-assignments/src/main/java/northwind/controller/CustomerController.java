@@ -12,6 +12,7 @@ import org.omnifaces.util.Messages;
 import northwind.data.CustomerRepository;
 import northwind.model.Customer;
 import northwind.report.CustomerSales;
+import northwind.service.CustomerService;
 
 @Model
 public class CustomerController {
@@ -69,6 +70,36 @@ public class CustomerController {
 	public List<CustomerSales> retrieveTopCustomerSales(){
 		return customerRepository.findTopCustomerSales();
 	}
+	
+	
+	
+	private Customer currentNewCustomer = new Customer(); //getter/setter
+	
+	@Inject
+	private CustomerService customerService;
+	
+	public void createNewCustomer() {
+		try {
+			customerService.createCustomer(currentNewCustomer);
+			Messages.addGlobalInfo("Create new customer was successful.");
+			
+			currentNewCustomer = new Customer();
+		} catch(Exception e) {
+			Messages.addGlobalWarn("Create new customer was not successful");
+		}
+	}
+
+	
+	public Customer getCurrentNewCustomer() {
+		return currentNewCustomer;
+	}
+
+	public void setCurrentNewCustomer(Customer currentNewCustomer) {
+		this.currentNewCustomer = currentNewCustomer;
+	}
+	
+	
+	
 }
 
 

@@ -2,6 +2,10 @@ package northwind.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+
 import java.util.List;
 
 
@@ -26,6 +30,8 @@ public class Customer implements Serializable {
 	@Column(name="City")
 	private String city;
 
+	@NotBlank(message="Company Name is required")
+	@Range(min=2, max=40, message="Company Name must be 2 to 40 characters in length")
 	@Column(name="CompanyName")
 	private String companyName;
 
