@@ -41,7 +41,7 @@
 			<b:inputText id="address" value="#{customerController.currentNewCustomer.address}" 
 				placeholder="enter address" label="Address " span="6" />
 				
-			<b:inputText id="city" value="#{customerController.currentNewCustomer.city}" 
+			<b:inputText idorders = orderService.findOrdersByDateRange(currentStartDate, currentEndDate);="city" value="#{customerController.currentNewCustomer.city}" 
 				placeholder="enter city" label="City " span="6" />
 				
 			<b:inputText id="region" value="#{customerController.currentNewCustomer.region}" 
@@ -64,8 +64,6 @@
 			<b:commandButton value="Submit" ajax="false" look="primary" 
 				update="messages" actionListener="#{customerController.createNewCustomer()}"/>
 				
-			<b:commandButton value="Cancel" ajax="false"
-				 actionListener="#{customerController.resetCustomer()}"/> <!-- REMOVE  -->
 				
 		</b:form>
 				
