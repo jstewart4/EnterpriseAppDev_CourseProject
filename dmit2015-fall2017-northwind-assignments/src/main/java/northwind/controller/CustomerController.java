@@ -98,6 +98,9 @@ public class CustomerController {
 		this.currentNewCustomer = currentNewCustomer;
 	}
 	
+	public void resetCustomer() {
+		currentNewCustomer = new Customer(); //REMOVE
+	}
 	
 	
 }
