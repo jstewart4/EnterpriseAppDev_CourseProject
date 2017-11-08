@@ -14,6 +14,7 @@ import northwind.data.OrderRepository;
 import northwind.model.Order;
 import northwind.model.OrderDetail;
 import northwind.report.AllSalesReport;
+import northwind.service.OrderService;
 
 @Model
 public class OrderController {
@@ -144,18 +145,16 @@ public class OrderController {
 		this.currentSelectedEmployeeId = currentSelectedEmployeeId;
 	}
 
+	
 
 	public List<Order> getOrdersByEmployee() {
 		return ordersByEmployee;
 	}
 	
-	private String currentStartDate; //getter/setter
-	
-	private String currentEndDate; //getter/setter
 	
 	
-	public void retreiveOrderSalesByRange() {
-		orders = orderRepository.findOrderByDateRange(currentStartDate, currentEndDate);
-	}
+	
+	
+	
 
 }
