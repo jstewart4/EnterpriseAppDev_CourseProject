@@ -66,4 +66,13 @@ public class OrderRepository extends AbstractJpaRepository<Order> {
 		
 	}
 	
+	public List<Order> findOrdersByYearAndMonth(int year, int month) {		
+		return getEntityManager().createQuery("SELECT o FROM Order o "
+				+ "WHERE YEAR(o.shippedDate) = :yearValue AND MONTH(o.shippedDate) = :monthValue " 
+				,Order.class)
+				.setParameter("yearValue", year)
+				.setParameter("monthValue", month)
+				.getResultList();		
+	}
+	
 }
