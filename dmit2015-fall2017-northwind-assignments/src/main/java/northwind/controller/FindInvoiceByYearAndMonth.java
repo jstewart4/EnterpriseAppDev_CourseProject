@@ -1,5 +1,6 @@
 package northwind.controller;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -17,7 +18,7 @@ import northwind.service.OrderService;
 @SuppressWarnings("serial")
 @Named
 @ViewScoped
-public class FindInvoiceByYearAndMonth {
+public class FindInvoiceByYearAndMonth implements Serializable{
 	
 	@Inject
 	private OrderService orderService;
