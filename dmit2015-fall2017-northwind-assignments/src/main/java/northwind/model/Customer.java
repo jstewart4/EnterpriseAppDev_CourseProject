@@ -2,6 +2,7 @@ package northwind.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -21,7 +22,9 @@ public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@NotBlank(message="Customer ID is required")
+	@Pattern(regexp="^[A-Z]{5}$", message="Customer ID must be 5 characters in length")
 	@Column(name="CustomerID")
 	private String customerID;
 

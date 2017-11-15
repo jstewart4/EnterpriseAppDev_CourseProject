@@ -86,6 +86,7 @@ public class CustomerController {
 			currentNewCustomer = new Customer();
 		} catch(Exception e) {
 			Messages.addGlobalWarn("Create new customer was not successful");
+			Messages.addGlobalWarn("{0}", e.getMessage());
 		}
 	}
 
