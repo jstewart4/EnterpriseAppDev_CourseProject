@@ -1,6 +1,8 @@
 package northwind.data;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import northwind.model.Order;
@@ -56,9 +58,10 @@ public class OrderRepository extends AbstractJpaRepository<Order> {
 		return allSales;
 	}	
 	
-	public List<Order> findOrderByDateRange(String startDate, String endDate ) {
+	public List<Order> findOrderByDateRange(Date startDate, Date endDate ) {
+		
 		return getEntityManager().createQuery("SELECT o FROM Order o "
-				+ "WHERE o.orderDate between :startValue and :endValue "
+				+ "WHERE o.orderDate >= :startValue AND o.orderDate <= :endValue "
 				, Order.class)
 				.setParameter("startValue", startDate)
 				.setParameter("endValue", endDate)
