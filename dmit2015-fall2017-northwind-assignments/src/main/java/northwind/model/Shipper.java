@@ -2,6 +2,10 @@ package northwind.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.List;
 
 
@@ -20,7 +24,9 @@ public class Shipper implements Serializable {
 	@Column(name="ShipperID")
 	private int shipperID;
 
+	@NotBlank(message="You must input a shipper name.")
 	@Column(name="CompanyName")
+	@Length(min=2, max=40)
 	private String companyName;
 
 	@Column(name="Phone")

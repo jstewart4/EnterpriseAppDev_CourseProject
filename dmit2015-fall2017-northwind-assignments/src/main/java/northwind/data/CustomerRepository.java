@@ -32,7 +32,7 @@ public class CustomerRepository extends AbstractJpaRepository<Customer> {
 						+ " FROM OrderDetail od, IN (od.order) t, IN (t.customer) m "
 						+ " WHERE YEAR(t.shippedDate) = :yearDate"
 						+ " GROUP BY m.customerID "
-						+ " ORDER BY TotalSales DESC", 
+						+ " ORDER BY TotalSales  DESC", 
 						CustomerSales.class)
 						.setParameter("yearDate", 1997)
 				.getResultList();

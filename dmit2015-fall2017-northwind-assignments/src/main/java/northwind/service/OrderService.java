@@ -19,4 +19,12 @@ public class OrderService {
 		return orderRepository.findOrderByDateRange(dateOne, dateTwo);
 		
 	}
+	
+	public List<Order> findOrdersByYearAndMonth(int year, int month){
+		return orderRepository.findOrdersByYearAndMonth(year, month);
+	}
+	
+	public Order findOneSalesInvoice(int orderID){
+		return orderRepository.find(orderID);
+	}
 }
