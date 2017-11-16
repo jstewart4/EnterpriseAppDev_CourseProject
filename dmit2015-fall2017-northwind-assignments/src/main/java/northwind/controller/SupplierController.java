@@ -17,6 +17,20 @@ public class SupplierController {
 	private int currentSelectedSupplierId; //getter/setter
 	private Supplier currentSelectedSupplier; //getter
 	
+	@Inject
+	private SupplierRepository supplierRepository;
+	
+	private List<Supplier> suppliers;
+	
+	@PostConstruct
+	void init() {
+		suppliers = supplierRepository.findAll();
+	}
+	
+	public List<Supplier> getSuppliers(){
+		return suppliers;
+	}
+	
 	public void findSupplier() {
 		if( !FacesContext.getCurrentInstance().isPostback()) {
 			if( currentSelectedSupplierId > 0) {
@@ -32,19 +46,6 @@ public class SupplierController {
 		}
 	}
 	
-	@Inject
-	private SupplierRepository supplierRepository;
-	
-	private List<Supplier> suppliers;
-	
-	@PostConstruct
-	void init() {
-		suppliers = supplierRepository.findAll();
-	}
-	
-	public List<Supplier> getSuppliers(){
-		return suppliers;
-	}
 
 	public int getCurrentSelectedSupplierId() {
 		return currentSelectedSupplierId;

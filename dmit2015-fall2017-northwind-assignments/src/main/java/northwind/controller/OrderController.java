@@ -1,12 +1,15 @@
 package northwind.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 
 import org.omnifaces.util.Messages;
 
@@ -16,8 +19,10 @@ import northwind.model.OrderDetail;
 import northwind.report.AllSalesReport;
 import northwind.service.OrderService;
 
-@Model
-public class OrderController {
+@SuppressWarnings("serial")
+@Named
+@ViewScoped
+public class OrderController implements Serializable{
 	
 	private int selectedOrderId; 				//getter/setter
 	private Order selectedOrder;				//getter
@@ -27,6 +32,10 @@ public class OrderController {
 	private String currentSelectedCustomerId;	// getter/setter
 	private List<Order> ordersByEmployee;		// getter
 	private int currentSelectedEmployeeId;		// getter/setter
+	
+	@NotNull(message="OrderId field value is required")
+	private Integer currentSelectedOrderId;		// getter/setter
+	private Order currentSelectedOrder;			// getter
 	
 	public void findOrder() {
 		if(!FacesContext.getCurrentInstance().isPostback()) {
@@ -76,8 +85,41 @@ public class OrderController {
 			}
 		}
     }
+    
+	public void findOneInvoice() {
+		currentSelectedOrder = orderRepository.findOne(currentSelectedOrderId);
+		if( currentSelectedOrder == null ) {
+			Messages.addGlobalInfo("There is no invoice with orderID {0}", currentSelectedOrderId);					
+		} else {
+			Messages.addGlobalInfo("We found 1 result with orderID {0}", currentSelectedOrderId);								
+		}
+	}
+
+	public void findOneCustomerInvoice(int orderId) {
+		currentSelectedOrder = orderRepository.findOne(orderId);
+		if( currentSelectedOrder == null ) {
+			Messages.addGlobalInfo("There is no invoice with orderID {0}", orderId);					
+		} else {
+			for (OrderDetail i : currentSelectedOrder.getOrderDetails()) {
+				SubTotal = SubTotal + ( (i.getUnitPrice().doubleValue() - (i.getUnitPrice().doubleValue() * i.getDiscount())) * i.getQuantity());
+			}
+						
+			SalesTotal = SubTotal + currentSelectedOrder.getFreight().doubleValue();
+			
+			Messages.addGlobalInfo("We found 1 result with orderID {0}", orderId);								
+		}
+	}	
 	
-	
+	public void findAllInvoicesByCustomer() {
+		ordersByCustomer = orderRepository.findAllByCustomerId(currentSelectedCustomerId);
+		currentSelectedOrder = null;
+		int resultCount = ordersByCustomer.size();
+		if (ordersByCustomer.size() == 0) {
+			Messages.addGlobalError("Unknown customerId \"{0}\". We found 0 results", currentSelectedCustomerId);
+		} else {
+			Messages.addGlobalInfo("There are {0} orders from customerId {1}", resultCount, currentSelectedCustomerId);
+		}
+	}
 	
 	@Inject
 	private OrderRepository orderRepository;
@@ -102,6 +144,22 @@ public class OrderController {
 		}
 		return allSales;
 	}
+
+	
+	public Integer getCurrentSelectedOrderId() {
+		return currentSelectedOrderId;
+	}
+
+
+	public void setCurrentSelectedOrderId(Integer currentSelectedOrderId) {
+		this.currentSelectedOrderId = currentSelectedOrderId;
+	}
+
+
+	public Order getCurrentSelectedOrder() {
+		return currentSelectedOrder;
+	}
+
 
 	public int getSelectedOrderId() {
 		return selectedOrderId;
