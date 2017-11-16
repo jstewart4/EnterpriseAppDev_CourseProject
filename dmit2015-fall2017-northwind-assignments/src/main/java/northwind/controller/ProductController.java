@@ -1,11 +1,13 @@
 package northwind.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.omnifaces.util.Messages;
 
@@ -13,9 +15,12 @@ import northwind.data.ProductRepository;
 import northwind.model.Product;
 import northwind.report.ExpensiveProductReport;
 import northwind.report.ProductSalesByYearReport;
+import northwind.service.ProductService;
 
-@Model
-public class ProductController {
+@SuppressWarnings("serial")
+@Named
+@ViewScoped
+public class ProductController implements Serializable{
 	
 	@Inject
 	private ProductRepository productRepository;
@@ -41,11 +46,14 @@ public class ProductController {
 	
 	private List<Product> productsByCategory; //getter
 	private List<Product> productsBySupplier;
-	private int currentSelectedSupplierId;
+	private Integer currentSelectedSupplierId; //getter/setter
 	private int currentSelectedProductId; //getter/setter
-	private int currentSelectedCategoryId; //getter/setter
+	private Integer currentSelectedCategoryId; //getter/setter
 
 	private Product currentSelectedProduct; //getter
+	
+	@Inject
+	private ProductService productService;
 	
 	public void findProduct() {
 		if(!FacesContext.getCurrentInstance().isPostback()) {
@@ -95,21 +103,21 @@ public class ProductController {
 		return currentSelectedProduct;
 	}
 
-	public int getCurrentSelectedCategoryId() {
+	public Integer getCurrentSelectedCategoryId() {
 		return currentSelectedCategoryId;
 	}
 
-	public void setCurrentSelectedCategoryId(int currentSelectedCategoryId) {
+	public void setCurrentSelectedCategoryId(Integer currentSelectedCategoryId) {
 		this.currentSelectedCategoryId = currentSelectedCategoryId;
 	}
 	
 	
 
-	public int getCurrentSelectedSupplierId() {
+	public Integer getCurrentSelectedSupplierId() {
 		return currentSelectedSupplierId;
 	}
 
-	public void setCurrentSelectedSupplierId(int currentSelectedSupplierId) {
+	public void setCurrentSelectedSupplierId(Integer currentSelectedSupplierId) {
 		this.currentSelectedSupplierId = currentSelectedSupplierId;
 	}
 
@@ -121,12 +129,33 @@ public class ProductController {
 					Messages.addGlobalInfo("There are no products for supplierId {0}", currentSelectedSupplierId);
 				}
 			} else {
-				Messages.addFlashGlobalError("Bad request. A valid supplierId is required.");
+				Messages.addGlobalError("Bad request. A valid supplierId is required.");
 			}
 		}
 	}
 
+	private Product currentNewProduct = new Product(); //getter/setter
 	
+	public void createNewProduct() {
+		try {
+			productService.createProduct(currentNewProduct, currentSelectedSupplierId, currentSelectedCategoryId);
+			Messages.addGlobalInfo("Create new product was successful.");
+			
+			currentNewProduct = new Product();
+		} catch(Exception e) {
+			Messages.addGlobalWarn("Create new product was not successful");
+			Messages.addGlobalWarn("{0}", e.getMessage());
+		}
+	}
+
+	
+	public Product getCurrentNewProduct() {
+		return currentNewProduct;
+	}
+
+	public void setCurrentNewProduct(Product currentNewProduct) {
+		this.currentNewProduct = currentNewProduct;
+	}
 	
 	
 	
