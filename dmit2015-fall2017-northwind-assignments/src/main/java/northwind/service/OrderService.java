@@ -25,6 +25,6 @@ public class OrderService {
 	}
 	
 	public Order findOneSalesInvoice(int orderId){
-		return orderRepository.find(orderId);
+		return orderRepository.findOne(orderId);
 	}
 }
