@@ -24,7 +24,7 @@ public class OrderService {
 		return orderRepository.findOrdersByYearAndMonth(year, month);
 	}
 	
-	public Order findOneSalesInvoice(int orderID){
-		return orderRepository.find(orderID);
+	public Order findOneSalesInvoice(int orderId){
+		return orderRepository.find(orderId);
 	}
 }
