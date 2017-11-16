@@ -32,11 +32,24 @@
 		<b:form id="queryForm">
 			<b:panel title="Find Sales Invoices">
 				<b:inputText id="searchYear"
-					value="#{findInvoiceByYearAndMonth.searchYear}">
+					value="#{findInvoiceByYearAndMonth.searchYear}"
+					label="Year" >				
 				</b:inputText>
-				<b:inputText id="searchMonth"
-					value="#{findInvoiceByYearAndMonth.searchMonth}">
-				</b:inputText>
+				<b:selectOneMenu value="#{findInvoiceByYearAndMonth.searchMonth}" label="Month" >
+            		<f:selectItem itemLabel="(Please select a month)" itemValue="" />
+            		<f:selectItem itemLabel="January" itemValue="1" />
+            		<f:selectItem itemLabel="February" itemValue="2" />
+            		<f:selectItem itemLabel="March" itemValue="3" />
+            		<f:selectItem itemLabel="April" itemValue="4" />
+            		<f:selectItem itemLabel="May" itemValue="5" />
+            		<f:selectItem itemLabel="June" itemValue="6" />
+            		<f:selectItem itemLabel="July" itemValue="7" />
+            		<f:selectItem itemLabel="August" itemValue="8" />
+            		<f:selectItem itemLabel="September" itemValue="9" />
+            		<f:selectItem itemLabel="October" itemValue="10" />
+            		<f:selectItem itemLabel="November" itemValue="11" />
+            		<f:selectItem itemLabel="December" itemValue="12" />
+       		 	</b:selectOneMenu>
 				<b:commandButton value="Search"
 					look="primary"
 					ajax="true"
@@ -49,9 +62,18 @@
 					rendered="#{not empty findInvoiceByYearAndMonth.queryResults}">
 				<b:dataTable value="#{findInvoiceByYearAndMonth.queryResults}" var="order">
 					<b:dataTableColumn value="#{order.orderID}" label="Order ID"/>
-					<b:dataTableColumn value="#{order.orderDate}" label="Order Date"/>
-					<b:dataTableColumn value="#{order.shippedDate}" label="Shipped Date"/>
-					<b:dataTableColumn value="#{order.employee.firstName}" label="Employee"/>
+					<b:dataTableColumn  label="Order Date">
+						<h:outputText value="#{order.orderDate}">
+							<f:convertDateTime dateStyle="medium"/>
+						</h:outputText>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Shipped Date">
+						<h:outputText value="#{order.shippedDate}">
+							<f:convertDateTime dateStyle="medium"/>
+						</h:outputText>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{order.customer.contactName}" label="Customer"/>
+					<b:dataTableColumn value="#{order.employee.firstName} #{order.employee.lastName}" label="Employee"/>
 					<b:dataTableColumn>
         		<f:facet name="header">Action</f:facet>
         		<b:navCommandLink outcome="orderDetail.xhtml">

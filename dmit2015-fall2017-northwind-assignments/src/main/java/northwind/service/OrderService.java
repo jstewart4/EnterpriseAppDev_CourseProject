@@ -1,5 +1,6 @@
 package northwind.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -14,7 +15,7 @@ public class OrderService {
 	@Inject
 	private OrderRepository orderRepository;
 	
-	public List<Order> findOrdersByDateRange(String dateOne, String dateTwo) {
+	public List<Order> findOrdersByDateRange(Date dateOne, Date dateTwo) {
 		return orderRepository.findOrderByDateRange(dateOne, dateTwo);
 		
 	}
@@ -23,7 +24,7 @@ public class OrderService {
 		return orderRepository.findOrdersByYearAndMonth(year, month);
 	}
 	
-	public Order findOneSalesInvoice(int orderID){
-		return orderRepository.find(orderID);
+	public Order findOneSalesInvoice(int orderId){
+		return orderRepository.findOne(orderId);
 	}
 }

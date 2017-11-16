@@ -29,39 +29,44 @@
 		<b:messages id="messages" />
 		
 		<b:form>
+		
+			<b:inputText id="customerid" value="#{customerController.currentNewCustomer.customerID}" 
+				placeholder="enter customer ID" label="Customer ID " />  <!--  test reg number?-->
+				
+			
 			<b:inputText id="companyname" value="#{customerController.currentNewCustomer.companyName}" 
-				placeholder="enter company name" label="Company Name " span="6" />
+				placeholder="enter company name" label="Company Name " />
 				
 			<b:inputText id="contactname" value="#{customerController.currentNewCustomer.contactName}" 
-				placeholder="enter contact name" label="Contact Name " span="6" />
+				placeholder="enter contact name" label="Contact Name "  />
 				
 			<b:inputText id="contacttitle" value="#{customerController.currentNewCustomer.contactTitle}" 
-				placeholder="enter contact title" label="Contact Title " span="6" />
+				placeholder="enter contact title" label="Contact Title " />
 				
 			<b:inputText id="address" value="#{customerController.currentNewCustomer.address}" 
-				placeholder="enter address" label="Address " span="6" />
+				placeholder="enter address" label="Address "  />
 				
-			<b:inputText idorders = orderService.findOrdersByDateRange(currentStartDate, currentEndDate);="city" value="#{customerController.currentNewCustomer.city}" 
-				placeholder="enter city" label="City " span="6" />
+			<b:inputText id="city" value="#{customerController.currentNewCustomer.city}" 
+				placeholder="enter city" label="City "  />
 				
 			<b:inputText id="region" value="#{customerController.currentNewCustomer.region}" 
-				placeholder="enter region" label="Region " span="6" />
+				placeholder="enter region" label="Region " />
 				
 			<b:inputText id="postalcode" value="#{customerController.currentNewCustomer.postalCode}" 
-				placeholder="enter postal code" label="Postal Code " span="6" />
+				placeholder="enter postal code" label="Postal Code "  />
 				
 			<b:inputText id="country" value="#{customerController.currentNewCustomer.country}" 
-				placeholder="enter country name" label="Country Name " span="6" />
+				placeholder="enter country name" label="Country Name " />
 				
 			<b:inputText id="phone" value="#{customerController.currentNewCustomer.phone}" 
-				placeholder="enter phone number" label="Phone " span="6" />
+				placeholder="enter phone number" label="Phone "  />
 				
 			<b:inputText id="fax" value="#{customerController.currentNewCustomer.fax}" 
-				placeholder="enter fax number" label="Fax Number " span="6" />
+				placeholder="enter fax number" label="Fax Number " />
 				
 			
 			
-			<b:commandButton value="Submit" ajax="false" look="primary" 
+			<b:commandButton value="Submit" ajax="true" look="primary" 
 				update="messages" actionListener="#{customerController.createNewCustomer()}"/>
 				
 				

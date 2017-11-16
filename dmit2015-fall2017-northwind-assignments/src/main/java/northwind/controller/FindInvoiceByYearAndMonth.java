@@ -57,7 +57,7 @@ public class FindInvoiceByYearAndMonth implements Serializable{
 	public void findSalesInvoicesByYearAndMonth() {
 		try {
 			queryResults = orderService.findOrdersByYearAndMonth(searchYear, searchMonth);
-			if( queryResults == null ) {
+			if(queryResults.size() == 0) {
 				Messages.addGlobalInfo("We found 0 results for Year {0} and Month {1}",
 						searchYear, searchMonth);
 			} else {

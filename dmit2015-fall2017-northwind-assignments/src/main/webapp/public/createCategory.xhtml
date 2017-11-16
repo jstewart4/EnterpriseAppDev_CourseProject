@@ -32,11 +32,11 @@
 			<b:inputText id="categoryName" placeholder="enter category name" label="Category Name"
 				value="#{categoryController.categoryName}" />
 				
-			<b:inputTextarea id="description" placeholder="enter description od category" label="Description" 
+			<b:inputTextarea id="description" placeholder="enter description of category" label="Description" 
 				value="#{categoryController.description}"/>
 				
 			<h:outputLabel value="Picture" for="picture" />
-			<o:inputFile id="picture" value="#{categoryController.uploadedFile}" />
+			<o:inputFile id="picture" value="#{categoryController.uploadedFile}" /> <br/>
 			
 			<b:commandButton value="Submit"
 				actionListener="#{categoryController.createNewCategory()}"
