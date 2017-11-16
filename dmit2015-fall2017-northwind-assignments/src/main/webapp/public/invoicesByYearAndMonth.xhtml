@@ -62,9 +62,18 @@
 					rendered="#{not empty findInvoiceByYearAndMonth.queryResults}">
 				<b:dataTable value="#{findInvoiceByYearAndMonth.queryResults}" var="order">
 					<b:dataTableColumn value="#{order.orderID}" label="Order ID"/>
-					<b:dataTableColumn value="#{order.orderDate}" label="Order Date"/>
-					<b:dataTableColumn value="#{order.shippedDate}" label="Shipped Date"/>
-					<b:dataTableColumn value="#{order.employee.firstName}" label="Employee"/>
+					<b:dataTableColumn  label="Order Date">
+						<h:outputText value="#{order.orderDate}">
+							<f:convertDateTime dateStyle="medium"/>
+						</h:outputText>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Shipped Date">
+						<h:outputText value="#{order.shippedDate}">
+							<f:convertDateTime dateStyle="medium"/>
+						</h:outputText>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{order.customer.contactName}" label="Customer"/>
+					<b:dataTableColumn value="#{order.employee.firstName} #{order.employee.lastName}" label="Employee"/>
 					<b:dataTableColumn>
         		<f:facet name="header">Action</f:facet>
         		<b:navCommandLink outcome="orderDetail.xhtml">
