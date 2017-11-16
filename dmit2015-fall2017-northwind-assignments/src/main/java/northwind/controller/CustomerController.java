@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
 import org.omnifaces.util.Messages;
 
@@ -20,6 +21,9 @@ public class CustomerController {
 	
 	private String currentSelectedCustomerId;		// getter/setter
 	private Customer currentSelectedCustomer;	   // getter
+	
+	@NotNull(message="Customer field value is required.")
+	private Integer searchValue;		// +getter+setter
 	 	
 	 	public void findCustomer() {
 	 		if( !FacesContext.getCurrentInstance().isPostback() ) {
@@ -36,6 +40,14 @@ public class CustomerController {
 	 			}
 	 		}		
 	 	}
+	
+	public Integer getSearchValue() {
+			return searchValue;
+		}
+
+	public void setSearchValue(Integer searchValue) {
+			this.searchValue = searchValue;
+		}
 	
 	@Inject
 	private CustomerRepository customerRepository;
