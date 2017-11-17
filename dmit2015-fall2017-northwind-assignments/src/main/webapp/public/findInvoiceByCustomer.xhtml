@@ -22,10 +22,7 @@
 	</ui:define>
 
 	<ui:define name="maincontent">
-		<f:metadata>
-			<f:viewParam name="id" value="#{orderController.currentSelectedCustomerId}"></f:viewParam>
-			<f:event listener="#{orderController.findOrdersByCustomer()}" type="preRenderView"/>
-		</f:metadata>
+
 		<b:jumbotron>
 			<h1>Find Sales Invoice By Customer</h1>
 		</b:jumbotron>
