@@ -16,12 +16,12 @@ import northwind.service.ProductService;
 
 @SuppressWarnings("serial")
 @Named
-@SessionScoped 
+@SessionScoped //CHANGE PRODUCT TO oRDER DETAILS
 public class ShoppingCartController implements Serializable {
 	
 	@NotNull(message="ProductId field value is required")
 	private Integer currentProductId;						// +getter +setter
-	private Set<Product> products = new HashSet<>();	   // +getter
+	private Set<Product> products = new HashSet<>();	   // +setter
 	
 	
 	
@@ -31,9 +31,13 @@ public class ShoppingCartController implements Serializable {
 	public void setCurrentProductId(Integer currentProductId) {
 		this.currentProductId = currentProductId;
 	}
-	public Set<Product> getProducts() {
-		return products;
+	
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
+
+
 
 	@Inject
 	ProductService productService;
