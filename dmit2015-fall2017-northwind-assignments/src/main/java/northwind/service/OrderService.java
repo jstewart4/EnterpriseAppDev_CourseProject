@@ -1,6 +1,5 @@
 package northwind.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +13,9 @@ import javax.persistence.EntityManager;
 
 import northwind.data.OrderRepository;
 import northwind.data.ProductRepository;
+import northwind.exception.IllegalQuantityException;
+import northwind.exception.InsufficientStockException;
+import northwind.exception.NoOrderDetailException;
 import northwind.model.Order;
 import northwind.model.OrderDetail;
 import northwind.model.OrderDetailPK;
@@ -46,12 +48,13 @@ public class OrderService {
 		return orderRepository.findOne(orderId);
 	}
 	
-	public int createOrder(Order newOrder, Set<OrderDetail> products) {
+	public int createOrder(Order newOrder, Set<OrderDetail> products) 
+			throws NoOrderDetailException, IllegalQuantityException, InsufficientStockException {
 		int orderId = 0;
 		
 		if(products == null || products.size() == 0) {
 			context.setRollbackOnly();
-			// throw new NoInvoiceLinesException("There are no items in the invoice");
+			throw new NoOrderDetailException("There are no products in the Order");
 		}
 		
 		entityManager.persist(newOrder);
@@ -61,12 +64,12 @@ public class OrderService {
 			
 			if (singleItem.getQuantity() > 1) {
 				context.setRollbackOnly();
-				//throw new IllegalQuantityException("Invalid quantity ordered.");
+				throw new IllegalQuantityException("Invalid quantity ordered.");
 			}
 			
 			if (singleItem.getQuantity() <= singleItem.getProduct().getUnitsInStock() ) {
 				context.setRollbackOnly();
-				//throw new IllegalQuantityException("Invalid quantity ordered.");
+				throw new InsufficientStockException("Not enough stock for quantity ordered.");
 			}
 			
 			OrderDetailPK primaryKey = new OrderDetailPK();
