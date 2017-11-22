@@ -82,10 +82,9 @@ public class POSController implements Serializable {
 		OrderDetail currentDetail = new OrderDetail();
 		Product detailProduct = productService.findOne(currentProductId);
 		
-		if (detailProduct == null) {
+		if (detailProduct == null || detailProduct.getDiscontinued() == 't') {
 			Messages.addGlobalWarn("{0} is not a valid ProductID.", currentProductId);
 			
-			// add else if for discontinued ?
 			
 		} else {
 			
@@ -107,9 +106,9 @@ public class POSController implements Serializable {
 	public void createNewOrder() {
 		try {
 			
-			// set/check order fields (including customer and employee) 
+			// check order fields (including customer and employee) 
 			
-			orderService.createOrder(currentOrder, details); //Add later 
+			orderService.createOrder(currentOrder, details); 
 			Messages.addGlobalInfo("Order creation was successful");
 			currentOrder = new Order();
 			details.clear();
@@ -123,7 +122,7 @@ public class POSController implements Serializable {
 		Messages.addGlobalInfo("Remove product was successful");
 	}
 	
-	public void clearCart() { //May not need...
+	public void clearCart() { 
 		details.clear();
 	}
 }

@@ -16,6 +16,7 @@ import northwind.data.OrderRepository;
 import northwind.data.ProductRepository;
 import northwind.model.Order;
 import northwind.model.OrderDetail;
+import northwind.model.OrderDetailPK;
 
 @Stateless
 public class OrderService {
@@ -45,11 +46,11 @@ public class OrderService {
 		return orderRepository.findOne(orderId);
 	}
 	
-	public int createOrder(Order newOrder, List<OrderDetail> products) {
+	public int createOrder(Order newOrder, Set<OrderDetail> products) {
 		int orderId = 0;
 		
 		if(products == null || products.size() == 0) {
-			//context.setRollbackOnly();
+			context.setRollbackOnly();
 			// throw new NoInvoiceLinesException("There are no items in the invoice");
 		}
 		
@@ -59,18 +60,22 @@ public class OrderService {
 		for (OrderDetail singleItem : products) {
 			
 			if (singleItem.getQuantity() > 1) {
-				//context.setRollbackOnly();
+				context.setRollbackOnly();
 				//throw new IllegalQuantityException("Invalid quantity ordered.");
 			}
 			
-			if (singleItem.getQuantity() <= 9 ) {
-				//context.setRollbackOnly();
+			if (singleItem.getQuantity() <= singleItem.getProduct().getUnitsInStock() ) {
+				context.setRollbackOnly();
 				//throw new IllegalQuantityException("Invalid quantity ordered.");
 			}
 			
-			// set the invoice of each InvoiceLine
-			singleItem.setInvoice(newInvoice);
-			// persist the InvoiceLine
+			OrderDetailPK primaryKey = new OrderDetailPK();
+			
+			primaryKey.setOrderID(orderId);
+			primaryKey.setProductID(singleItem.getProduct().getProductID());
+			
+			singleItem.setId(primaryKey);
+			
 			entityManager.persist(singleItem);
 		}
 		
