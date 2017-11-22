@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import org.omnifaces.util.Messages;
 
+import northwind.model.OrderDetail;
 import northwind.model.Product;
 import northwind.service.ProductService;
 
@@ -21,7 +22,7 @@ public class ShoppingCartController implements Serializable {
 	
 	@NotNull(message="ProductId field value is required")
 	private Integer currentProductId;						// +getter +setter
-	private Set<Product> products = new HashSet<>();	   // +setter
+	private Set<OrderDetail> orderDetails = new HashSet<>();	   // +setter
 	
 	
 	
@@ -33,8 +34,8 @@ public class ShoppingCartController implements Serializable {
 	}
 	
 
-	public void setProducts(Set<Product> products) {
-		this.products = products;
+	public void setOrderDetails(Set<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 
 
@@ -43,22 +44,31 @@ public class ShoppingCartController implements Serializable {
 	ProductService productService;
 	
 	public void addProductToCart() {
-		Product currentProduct = productService.findOne(currentProductId);
-		if (currentProduct == null) {
-			Messages.addGlobalWarn("{0} is not a valid ProductID.", currentProduct);
+		OrderDetail currentDetail = new OrderDetail();
+		Product detailProduct = productService.findOne(currentProductId);
+		
+		if (detailProduct == null) {
+			Messages.addGlobalWarn("{0} is not a valid ProductID.", currentProductId);
+			
 		} else {
-			products.add(currentProduct);
-			Messages.addGlobalInfo("Adding product to cart successful.");
+			
+			currentDetail.setProduct(detailProduct);
+			currentDetail.setUnitPrice(detailProduct.getUnitPrice());
+			currentDetail.setDiscount(0.00);
+			currentDetail.setQuantity((short)0);
+	
+                orderDetails.add(currentDetail);
+				Messages.addGlobalInfo("Add product to cart successful.");
 		}
 	}
 	
-	public void removeProduct(Product currentProduct) {
-		products.remove(currentProduct);
+	public void removeProduct(OrderDetail currentProduct) {
+		orderDetails.remove(currentProduct);
 		Messages.addGlobalInfo("Remove product was successful");
 	}
 	
 	public void clearCart() { //May not need...
-		products.clear();
+		orderDetails.clear();
 	}
 
 	

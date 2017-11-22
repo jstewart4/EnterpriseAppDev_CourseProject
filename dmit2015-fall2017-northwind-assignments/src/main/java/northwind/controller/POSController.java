@@ -21,7 +21,7 @@ import northwind.service.ProductService;
 
 @SuppressWarnings("serial")
 @Named
-@SessionScoped  //CHANGE PRODUCT TO oRDER DETAILS
+@SessionScoped  
 public class POSController implements Serializable {
 
 
@@ -102,29 +102,28 @@ public class POSController implements Serializable {
 		}
 	}
 	
-	//CHANGE PRODUCT TO oRDER DETAILS
+	
 	
 	public void createNewOrder() {
 		try {
 			
-			// set order fields (including customer and employee)
-			//		for the shipping info, if null(blank) use billing info 
+			// set/check order fields (including customer and employee) 
 			
-			orderService.createOrder(currentOrder, products); //Add later 
+			orderService.createOrder(currentOrder, details); //Add later 
 			Messages.addGlobalInfo("Order creation was successful");
 			currentOrder = new Order();
-			products.clear();
+			details.clear();
 		} catch(Exception e) {
 			Messages.addGlobalError("Order creation was successful");
 		}
 	}
 	
-	public void removeProduct(Product currentProduct) {
-		products.remove(currentProduct);
+	public void removeProduct(OrderDetail currentProduct) {
+		details.remove(currentProduct);
 		Messages.addGlobalInfo("Remove product was successful");
 	}
 	
 	public void clearCart() { //May not need...
-		products.clear();
+		details.clear();
 	}
 }
