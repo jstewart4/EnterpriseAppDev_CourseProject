@@ -29,8 +29,8 @@ public class POSController implements Serializable {
 	private Integer currentProductId;						// getter/setter
 	private Set<OrderDetail> details = new HashSet<>();	   //  setter
 	private Order currentOrder;                            // getter/setter
-	private Customer currentCustomer;                            // getter/setter  Need?
-	private Employee currentEmployee;                            // getter/setter  Need?
+	private Customer currentCustomer;                            // getter/setter
+	private Employee currentEmployee;                            // getter/setter 
 	
 	
 	public Integer getCurrentProductId() {
@@ -43,6 +43,11 @@ public class POSController implements Serializable {
 	
 	
 	
+	
+	public Set<OrderDetail> getDetails() {
+		return details;
+	}
+
 	public void setDetails(Set<OrderDetail> details) {
 		this.details = details;
 	}
@@ -78,6 +83,10 @@ public class POSController implements Serializable {
 	@Inject
 	OrderService orderService;
 	
+	
+	//Need something for shipping info?
+	
+	
 	public void addProductToCart() {
 		OrderDetail currentDetail = new OrderDetail();
 		Product detailProduct = productService.findOne(currentProductId);
@@ -93,10 +102,12 @@ public class POSController implements Serializable {
 			currentDetail.setDiscount(0.00);
 			currentDetail.setQuantity((short)0);
 	
-				details.add(currentDetail);
+			if (details.add(currentDetail)) {
 				Messages.addGlobalInfo("Add product to cart successful.");
-	
-			
+			} else {
+				Messages.addGlobalInfo("Product is already in cart");
+				currentProductId = null;
+			}
 			
 		}
 	}
@@ -113,7 +124,7 @@ public class POSController implements Serializable {
 			currentOrder = new Order();
 			details.clear();
 		} catch(Exception e) {
-			Messages.addGlobalError("Order creation was successful");
+			Messages.addGlobalError("Order creation was not successful");
 		}
 	}
 	
