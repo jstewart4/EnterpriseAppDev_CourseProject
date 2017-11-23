@@ -29,8 +29,19 @@ public class POSController implements Serializable {
 	private Integer currentProductId;						// getter/setter
 	private Set<OrderDetail> details = new HashSet<>();	   //  setter
 	private Order currentOrder;                            // getter/setter
+	
+	@NotNull(message="Customer field value selection is required")
 	private Customer currentCustomer;                            // getter/setter
+	@NotNull(message="Customer field value selection is required")
 	private Employee currentEmployee;                            // getter/setter 
+	
+	private String shippingName; 								//getter/setter
+	private String shippingAddress; 							//getter/setter
+	private String shippingCity; 								//getter/setter
+	private String shippingRegion; 								//getter/setter
+	private String shippingPostal; 								//getter/setter
+	private String shippingCountry; 							//getter/setter
+	
 	
 	
 	public Integer getCurrentProductId() {
@@ -76,6 +87,55 @@ public class POSController implements Serializable {
 		this.currentEmployee = currentEmployee;
 	}
 
+	public String getShippingName() {
+		return shippingName;
+	}
+
+	public void setShippingName(String shippingName) {
+		this.shippingName = shippingName;
+	}
+
+	public String getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(String shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+	public String getShippingCity() {
+		return shippingCity;
+	}
+
+	public void setShippingCity(String shippingCity) {
+		this.shippingCity = shippingCity;
+	}
+
+	public String getShippingRegion() {
+		return shippingRegion;
+	}
+
+	public void setShippingRegion(String shippingRegion) {
+		this.shippingRegion = shippingRegion;
+	}
+
+	public String getShippingPostal() {
+		return shippingPostal;
+	}
+
+	public void setShippingPostal(String shippingPostal) {
+		this.shippingPostal = shippingPostal;
+	}
+
+	public String getShippingCountry() {
+		return shippingCountry;
+	}
+
+	public void setShippingCountry(String shippingCountry) {
+		this.shippingCountry = shippingCountry;
+	}
+
+
 
 	@Inject
 	ProductService productService;
@@ -84,7 +144,16 @@ public class POSController implements Serializable {
 	OrderService orderService;
 	
 	
-	//Need something for shipping info?
+	public void changeShipingInfo(boolean checked) { //Change for check box ? if use check box
+		
+		
+		shippingName = currentCustomer.getCompanyName();
+		shippingAddress = currentCustomer.getAddress();
+		shippingCity = currentCustomer.getCity();
+		shippingRegion = currentCustomer.getRegion();
+		shippingPostal = currentCustomer.getPostalCode();
+		shippingCountry = currentCustomer.getCountry();
+	}
 	
 	
 	public void addProductToCart() {
@@ -100,10 +169,11 @@ public class POSController implements Serializable {
 			currentDetail.setProduct(detailProduct);
 			currentDetail.setUnitPrice(detailProduct.getUnitPrice());
 			currentDetail.setDiscount(0.00);
-			currentDetail.setQuantity((short)0);
+			currentDetail.setQuantity((short)1);
 	
 			if (details.add(currentDetail)) {
 				Messages.addGlobalInfo("Add product to cart successful.");
+				currentProductId = null;
 			} else {
 				Messages.addGlobalInfo("Product is already in cart");
 				currentProductId = null;
@@ -130,10 +200,13 @@ public class POSController implements Serializable {
 	
 	public void removeProduct(OrderDetail currentProduct) {
 		details.remove(currentProduct);
+		currentProductId = null;
 		Messages.addGlobalInfo("Remove product was successful");
 	}
 	
 	public void clearCart() { 
 		details.clear();
+		currentProductId = null;
+		
 	}
 }

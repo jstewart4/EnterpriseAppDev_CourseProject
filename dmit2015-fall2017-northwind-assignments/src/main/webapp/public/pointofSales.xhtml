@@ -30,12 +30,13 @@
 		
 		<b:messages id="messages" />
 		
-		<b:form id="queryForm">
+		<b:form id="customerForm">
 		
 			<b:panel id="customerpanel" title="Step 1: Select Customer" span="12">
 				<b:row>
 					<b:column span="12">
-						<b:selectOneMenu id="customerlist" value="#{pOSController.currentCustomer}" update="customerpanel">
+						<b:selectOneMenu id="customerlist" label="Customer" value="#{pOSController.currentCustomer}" update="customerpanel"
+												onchange="ajax:shoppingCartController.changeBillingInfo()" >
 						<f:selectItem itemLabel="Choose Customer" itemValue="" noSelectionOption="true" />
 						<f:selectItems value="#{customerController.customers}" 
 							var="customer"
@@ -90,43 +91,117 @@
 				</b:row>
 			</b:panel>
 			
-			<b:panel id="productpanel" title="Step 2: Add Products">
+		</b:form>
+		
+		<b:form id="productForm">
+			
+			
+			<p:outputPanel id="productoutput">
+				<b:panel id="productpanel" title="Step 2: Add Products" span="12">
+					<b:row>
+						<b:column span="3">	
+							<b:inputText id="productId" 
+										label="Product ID "
+										inline="true"
+										value="#{pOSController.currentProductId}">
+										<b:focus />
+							</b:inputText>
+						</b:column>
+						
+						<b:column span="2">	
+							<b:commandButton value="Add to Cart" look="primary" ajax="false"
+										 actionListener="#{pOSController.addProductToCart()}" />
+						</b:column>
+						
+					</b:row>
+					
+					<b:row>
+						<b:column span="12">
+							<b:dataTable id="cartTable" value="#{pOSController.details}" var="singleItem" class="cartTable" 
+											rendered="#{not empty pOSController.details}">
+							
+							<b:dataTableColumn label="Product ID" value="#{singleItem.product.productID}" />
+							
+							<b:dataTableColumn label="ProductName" value="#{singleItem.product.productName}" />
+							
+							<b:dataTableColumn label="Qty">
+								<b:inputText value="#{singleItem.quantity}" size="2" update="@(.cartTable)">
+								</b:inputText>
+							</b:dataTableColumn>
+							
+							
+							<b:dataTableColumn label="Unit Price" value="#{of:formatCurrency(singleItem.unitPrice, '$')}" styleClass="text-right">
+							</b:dataTableColumn>
+							
+							<b:dataTableColumn label="Product Total" value="#{of:formatCurrency(singleItem.unitPrice * singleItem.quantity, '$')}" styleClass="text-right">
+							</b:dataTableColumn> 
+							
+							
+							<b:dataTableColumn label="Action">
+								<b:commandButton icon="trash" value="delete"
+									look="danger"
+									immediate="true"
+									actionListener="#{pOSController.removeProduct(singleItem)}"
+									ajax="true"
+									update="productForm, messages">							
+								</b:commandButton>
+							</b:dataTableColumn>
+							
+							</b:dataTable>
+						</b:column>
+					</b:row>
+				</b:panel>
+			</p:outputPanel>
+			
+			
+		</b:form>
+		
+		<b:form id="orderForm">
+			<b:panel id="orderpanel" title="Step 3: Order Info">
+				
 				<b:row>
 					<b:column span="12">
-						<b:label value="Product ID "></b:label>
-						
-						<h:inputText value="#{pOSController.currentProductId}"/>
-						
-						<b:commandButton value="Add to Cart" look="primary" ajax="true"
-									 update=" " action-listener="#{pOSController.addProductToCart()}"/>
+						<b:selectOneMenu id="employeelist" value="#{pOSController.currentEmployee}" label="Employee">
+							<f:selectItem itemLabel="Choose Employee" itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{employeeController.employees}" 
+								var="employee"
+								itemLabel="#{employee.lastName + ', ' + employee.firstName}"
+								itemValue="#{employee}" />
+						</b:selectOneMenu>
 					</b:column>
 				</b:row>
 				
 				<b:row>
 					<b:column span="12">
-						<b:dataTable id="cartTable" value="#{pOSController.details}" var="singleItem" class="cartTable" 
-										rendered="#{not empty pOSController.details}">
-						
-						<b:dataTableColumn label="Product ID" value="#{singleItem.product.productID}" />
-						
-						<b:dataTableColumn label="ProductName" value="#{singleItem.product.productName}" />
-						
-						<b:dataTableColumn label="Qty">
-							<b:inputText value="#{singleItem.quantity}" size="2" update="@(.cartTable)">
-							</b:inputText>
-						</b:dataTableColumn>
-						
-						
-						<b:dataTableColumn label="Unit Price" value="#{of:formatCurrency(singleItem.unitPrice, '$')}" styleClass="text-right">
-						</b:dataTableColumn>
-						
-						<b:dataTableColumn label="Product Total" value="#{of:formatCurrency(singleItem.unitPrice * singleItem.quantity, '$')}" styleClass="text-right">
-						</b:dataTableColumn> <!-- Fix this tommorrow  -->
-						
-						</b:dataTable>
+						 <b:dateTimePicker value="#{pOSController.currentOrder.requiredDate}" show-time="false" label="Required Date" />
 					</b:column>
 				</b:row>
-			
+				
+			</b:panel>
+		
+		</b:form>
+		
+		<b:form id="shipperForm"> <!-- START HERE -->
+			<b:panel id="shipperpanel" title="Step 4: Shipping Info">
+				<b:row>
+					<b:column span="12">
+						<b:selectBooleanCheckbox value="#{pOSController.changeShipingInfo(checkboxBean.checkbox)}" caption="Same as billing address" update="shipperForm"/>
+					</b:column>
+					
+					<b:inputText id="shippingName" label="Shipping Name" value="#{pOSController.shippingName}" />
+					
+					<b:inputText id="shippingAdress" label="Shipping Address" value="#{pOSController.shippingAddress}" />
+					
+					<b:inputText id="shippingCity" label="Shipping City" value="#{pOSController.shippingCity}" />
+					
+					<b:inputText id="shippingRegion" label="Shipping Region" value="#{pOSController.shippingRegion}" />
+					
+					<b:inputText id="shippingPostal" label="Shipping Postal Code" value="#{pOSController.shippingPostal}" />
+					
+					<b:inputText id="shippingCountry" label="Shipping Country" value="#{pOSController.shippingCountry}" />
+				
+				</b:row>
+			 
 			</b:panel>
 		
 		</b:form>
