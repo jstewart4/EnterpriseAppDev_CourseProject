@@ -48,8 +48,13 @@ public class OrderService {
 		return orderRepository.findOne(orderId);
 	}
 	
-	public int createOrder(Order newOrder, Set<OrderDetail> products) 
+	
+	
+	
+	
+	public int createOrder(Order newOrder, List<OrderDetail> products) 
 			throws NoOrderDetailException, IllegalQuantityException, InsufficientStockException {
+		
 		int orderId = 0;
 		
 		if(products == null || products.size() == 0) {
@@ -62,12 +67,12 @@ public class OrderService {
 		
 		for (OrderDetail singleItem : products) {
 			
-			if (singleItem.getQuantity() > 1) {
+			if (singleItem.getQuantity() < 1) {
 				context.setRollbackOnly();
 				throw new IllegalQuantityException("Invalid quantity ordered.");
 			}
 			
-			if (singleItem.getQuantity() <= singleItem.getProduct().getUnitsInStock() ) {
+			if (singleItem.getQuantity() > singleItem.getProduct().getUnitsInStock() ) {
 				context.setRollbackOnly();
 				throw new InsufficientStockException("Not enough stock for quantity ordered.");
 			}

@@ -35,8 +35,8 @@
 			<b:panel id="customerpanel" title="Step 1: Select Customer" span="12">
 				<b:row>
 					<b:column span="12">
-						<b:selectOneMenu id="customerlist" label="Customer" value="#{pOSController.currentCustomer}" update="customerpanel"
-												onchange="ajax:shoppingCartController.changeBillingInfo()" >
+						<b:selectOneMenu id="customerlist" label="Customer" value="#{pOSController.currentCustomer}" update="customerpanel orderForm"
+												onchange="ajax:pOSController.changeShipingInfo()" >
 						<f:selectItem itemLabel="Choose Customer" itemValue="" noSelectionOption="true" />
 						<f:selectItems value="#{customerController.customers}" 
 							var="customer"
@@ -121,7 +121,7 @@
 											rendered="#{not empty pOSController.details}">
 							
 							<b:dataTableColumn label="Product ID" value="#{singleItem.product.productID}" />
-							
+									
 							<b:dataTableColumn label="ProductName" value="#{singleItem.product.productName}" />
 							
 							<b:dataTableColumn label="Qty">
@@ -157,7 +157,7 @@
 		</b:form>
 		
 		<b:form id="orderForm">
-			<b:panel id="orderpanel" title="Step 3: Order Info">
+			<b:panel id="orderpanel" title="Step 3: Order Info" span="12">
 				
 				<b:row>
 					<b:column span="12">
@@ -165,7 +165,7 @@
 							<f:selectItem itemLabel="Choose Employee" itemValue="" noSelectionOption="true" />
 							<f:selectItems value="#{employeeController.employees}" 
 								var="employee"
-								itemLabel="#{employee.lastName + ', ' + employee.firstName}"
+								itemLabel="#{employee.lastName}, #{employee.firstName}"
 								itemValue="#{employee}" />
 						</b:selectOneMenu>
 					</b:column>
@@ -173,36 +173,39 @@
 				
 				<b:row>
 					<b:column span="12">
-						 <b:dateTimePicker value="#{pOSController.currentOrder.requiredDate}" show-time="false" label="Required Date" />
+						 <b:dateTimePicker value="#{pOSController.newRequiredDate}" show-time="false" label="Required Date" />
 					</b:column>
 				</b:row>
 				
 			</b:panel>
 		
-		</b:form>
 		
-		<b:form id="shipperForm"> <!-- START HERE -->
-			<b:panel id="shipperpanel" title="Step 4: Shipping Info">
+			<b:panel id="shipperpanel" title="Step 4: Shipping Info" span="12">
 				<b:row>
 					<b:column span="12">
-						<b:selectBooleanCheckbox value="#{pOSController.changeShipingInfo(checkboxBean.checkbox)}" caption="Same as billing address" update="shipperForm"/>
+						<b:selectBooleanCheckbox value="#{pOSController.shipingCheck}" caption="Same as billing address" update="orderForm" onchange="ajax:pOSController.changeShipingInfo()"/>
 					</b:column>
+                </b:row>
 					
-					<b:inputText id="shippingName" label="Shipping Name" value="#{pOSController.shippingName}" />
+					<b:inputText id="shippingName" label="Shipping Name" value="#{pOSController.shippingName}" /> <br/>
 					
-					<b:inputText id="shippingAdress" label="Shipping Address" value="#{pOSController.shippingAddress}" />
+					<b:inputText id="shippingAdress" label="Shipping Address" value="#{pOSController.shippingAddress}" /> <br/>
 					
-					<b:inputText id="shippingCity" label="Shipping City" value="#{pOSController.shippingCity}" />
+					<b:inputText id="shippingCity" label="Shipping City" value="#{pOSController.shippingCity}" /> <br/>
 					
-					<b:inputText id="shippingRegion" label="Shipping Region" value="#{pOSController.shippingRegion}" />
+					<b:inputText id="shippingRegion" label="Shipping Region" value="#{pOSController.shippingRegion}" /> <br/>
 					
-					<b:inputText id="shippingPostal" label="Shipping Postal Code" value="#{pOSController.shippingPostal}" />
+					<b:inputText id="shippingPostal" label="Shipping Postal Code" value="#{pOSController.shippingPostal}" /> <br/>
 					
-					<b:inputText id="shippingCountry" label="Shipping Country" value="#{pOSController.shippingCountry}" />
+					<b:inputText id="shippingCountry" label="Shipping Country" value="#{pOSController.shippingCountry}" /> <br/>
 				
-				</b:row>
+				
 			 
 			</b:panel>
+			
+			
+			<b:commandButton value="Place Order" look="primary" ajax="false"
+										 actionListener="#{pOSController.createNewOrder}" />
 		
 		</b:form>
 				

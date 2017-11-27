@@ -1,6 +1,10 @@
 package northwind.controller;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +15,9 @@ import javax.validation.constraints.NotNull;
 
 import org.omnifaces.util.Messages;
 
+import northwind.exception.IllegalQuantityException;
+import northwind.exception.InsufficientStockException;
+import northwind.exception.NoOrderDetailException;
 import northwind.model.Customer;
 import northwind.model.Employee;
 import northwind.model.Order;
@@ -28,7 +35,7 @@ public class POSController implements Serializable {
 	@NotNull(message="ProductId field value is required")
 	private Integer currentProductId;						// getter/setter
 	private Set<OrderDetail> details = new HashSet<>();	   //  setter
-	private Order currentOrder;                            // getter/setter
+	                          // getter/setter
 	
 	@NotNull(message="Customer field value selection is required")
 	private Customer currentCustomer;                            // getter/setter
@@ -42,6 +49,10 @@ public class POSController implements Serializable {
 	private String shippingPostal; 								//getter/setter
 	private String shippingCountry; 							//getter/setter
 	
+	@NotNull(message="Required Date field value is required")
+	private Date newRequiredDate; // getter/setter
+	
+	private boolean shipingCheck; // getter/setter
 	
 	
 	public Integer getCurrentProductId() {
@@ -53,8 +64,6 @@ public class POSController implements Serializable {
 	}
 	
 	
-	
-	
 	public Set<OrderDetail> getDetails() {
 		return details;
 	}
@@ -63,12 +72,7 @@ public class POSController implements Serializable {
 		this.details = details;
 	}
 
-	public Order getCurrentOrder() {
-		return currentOrder;
-	}
-	public void setCurrentOrder(Order currentOrder) {
-		this.currentOrder = currentOrder;
-	}
+	
 	
 	
 	public Customer getCurrentCustomer() {
@@ -134,6 +138,25 @@ public class POSController implements Serializable {
 	public void setShippingCountry(String shippingCountry) {
 		this.shippingCountry = shippingCountry;
 	}
+	
+	
+	public Date getNewRequiredDate() {
+		return newRequiredDate;
+	}
+
+	public void setNewRequiredDate(Date newRequiredDate) {
+		this.newRequiredDate = newRequiredDate;
+	}
+
+	
+
+	public boolean isShipingCheck() {
+		return shipingCheck;
+	}
+
+	public void setShipingCheck(boolean shipingCheck) {
+		this.shipingCheck = shipingCheck;
+	}
 
 
 
@@ -143,18 +166,23 @@ public class POSController implements Serializable {
 	@Inject
 	OrderService orderService;
 	
-	
-	public void changeShipingInfo(boolean checked) { //Change for check box ? if use check box
+
+	public void changeShipingInfo() { 
 		
+		if (currentCustomer == null) {
+			Messages.addGlobalWarn("Must choose a customer to have the same shipping info.");
+			
+		} else if (shipingCheck == true) {
+			
+			shippingName = currentCustomer.getCompanyName();
+			shippingAddress = currentCustomer.getAddress();
+			shippingCity = currentCustomer.getCity();
+			shippingRegion = currentCustomer.getRegion();
+			shippingPostal = currentCustomer.getPostalCode();
+			shippingCountry = currentCustomer.getCountry();
+		} 
 		
-		shippingName = currentCustomer.getCompanyName();
-		shippingAddress = currentCustomer.getAddress();
-		shippingCity = currentCustomer.getCity();
-		shippingRegion = currentCustomer.getRegion();
-		shippingPostal = currentCustomer.getPostalCode();
-		shippingCountry = currentCustomer.getCountry();
 	}
-	
 	
 	public void addProductToCart() {
 		OrderDetail currentDetail = new OrderDetail();
@@ -187,16 +215,50 @@ public class POSController implements Serializable {
 	public void createNewOrder() {
 		try {
 			
-			// check order fields (including customer and employee) 
+			Order currentOrder = new Order();  
 			
-			orderService.createOrder(currentOrder, details); 
-			Messages.addGlobalInfo("Order creation was successful");
-			currentOrder = new Order();
+			currentOrder.setCustomer(currentCustomer);
+			currentOrder.setEmployee(currentEmployee);
+			currentOrder.setShipName(shippingName);
+			currentOrder.setShipAddress(shippingAddress);
+			currentOrder.setShipCity(shippingCity);
+			currentOrder.setShipRegion(shippingRegion);
+			currentOrder.setShipPostalCode(shippingPostal);
+			currentOrder.setShipCountry(shippingCountry);
+			currentOrder.setRequiredDate(newRequiredDate);
+			
+			Date today = Calendar.getInstance().getTime();
+			currentOrder.setOrderDate(new Timestamp(today.getTime()));
+			
+			
+			int orderId = orderService.createOrder(currentOrder, new ArrayList<>(details)); 
+			Messages.addGlobalInfo("Successfully created order {0}", orderId);
+			
+		
+			currentCustomer = new Customer();
+			currentEmployee = new Employee();
 			details.clear();
+			
+			shippingName = null;
+			shippingAddress = null;
+			shippingCity = null;
+			shippingRegion = null;
+			shippingPostal = null;
+			shippingCountry = null;
+			
+			newRequiredDate = null;
+			
+			
+		} catch( NoOrderDetailException | IllegalQuantityException | InsufficientStockException e) {
+			Messages.addGlobalError(e.getMessage());
+			
 		} catch(Exception e) {
 			Messages.addGlobalError("Order creation was not successful");
+			Messages.addGlobalError(e.getMessage());
 		}
 	}
+	
+	
 	
 	public void removeProduct(OrderDetail currentProduct) {
 		details.remove(currentProduct);
