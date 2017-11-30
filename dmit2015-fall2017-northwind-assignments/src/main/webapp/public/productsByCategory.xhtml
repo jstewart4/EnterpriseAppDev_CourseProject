@@ -54,7 +54,13 @@
 						view detail
 						<f:param name="id" value="#{currentProduct.productID}" />
 					</b:navCommandLink>
-        		</b:dataTableColumn>					
+        		</b:dataTableColumn>
+        		<b:dataTableColumn label="Action">
+					<b:commandButton value="Add to Cart"
+						action="#{shoppingCartController.addProductToCart(currentProduct.productID)}"
+						ajax="false">
+					</b:commandButton>
+		</b:dataTableColumn>					
 			</b:dataTable>
 		</b:form>
 				
