@@ -108,7 +108,7 @@ public class OrderService {
 					
 					if (singleItem.getQuantity() > singleItem.getProduct().getUnitsInStock() ) {
 						context.setRollbackOnly();
-						throw new InsufficientStockException("Not enough stock for quantity ordered.");
+						throw new InsufficientStockException("Not enough stock for Product " + singleItem.getProduct().getProductName() + ". Too much quantity ordered.");
 					}
 					
 					Product currentProduct = singleItem.getProduct();
