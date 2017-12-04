@@ -23,7 +23,8 @@
 	<ui:define name="maincontent">
 		<h1>List of Products</h1>
 		
-		<b:dataTable value="#{productController.products}" var="currentProduct">
+		<b:form>
+			<b:dataTable value="#{productController.products}" var="currentProduct">
         <b:dataTableColumn value="#{currentProduct.productID}" label="ID"/>
         <b:dataTableColumn value="#{currentProduct.productName}" />
         <b:dataTableColumn>
@@ -45,7 +46,14 @@
 						<f:param name="id" value="#{currentProduct.productID}" />
 					</b:navCommandLink>
         </b:dataTableColumn>
+        <b:dataTableColumn label="Action">
+					<b:commandButton value="Add to Cart"
+						action="#{shoppingCartController.addProductToCart(currentProduct.productID)}"
+						ajax="false">
+					</b:commandButton>
+		</b:dataTableColumn>
     </b:dataTable>
+		</b:form>
 				
 	</ui:define>
 

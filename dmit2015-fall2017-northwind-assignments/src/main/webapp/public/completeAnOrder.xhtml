@@ -1,0 +1,136 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:hf="http://highfaces.org" 
+	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
+	
+	<ui:param name="title" value="Northwind - Complete an Order" />
+	
+	<ui:define name="externalstyles">
+	</ui:define>
+	
+	<ui:define name="internalstyles">
+	</ui:define>
+
+	<ui:define name="maincontent">
+		
+		<b:jumbotron>
+			<h1><strong>Complete an Order</strong></h1>
+		</b:jumbotron>
+		
+		<b:messages id="messages" />
+		
+		<b:form id="queryForm">
+			<b:row>
+				<b:column span="1">
+					<strong>OrderID</strong>
+				</b:column>
+				<b:column span="3">					
+					<b:inputText id="searchValue"
+						value="#{findOneInvoiceByID.searchValue}" 
+						placeholder="enter orderId to search for"/>
+				</b:column>
+				<b:column span="1">
+					<b:commandButton value="Search" 
+						look="primary"
+						ajax="true"
+						update="messages queryForm:singleResultPanel"
+						actionListener="#{findOneInvoiceByID.findOneOrder()}"/>
+				</b:column>		
+			</b:row>
+			
+			<p:outputPanel id="singleResultPanel">
+				<b:panel title="Order Details" 
+					rendered="#{not empty findOneInvoiceByID.querySingleResult}"
+					span="12">
+					<b:panelGrid colSpans="2,10">
+						<h:outputLabel value="CustomerID" />
+						<h:outputText value="#{findOneInvoiceByID.querySingleResult.customer.customerID}" />
+						<h:outputLabel value="OrderID" />
+						<h:outputText value="#{findOneInvoiceByID.querySingleResult.orderID}" />
+						<h:outputLabel value="Order Date" />
+						<h:outputText value="#{findOneInvoiceByID.querySingleResult.orderDate}">
+							<f:convertDateTime pattern="MMMM dd, yyyy"/>
+						</h:outputText>
+						
+						<h:outputLabel value="Shipped Date" />
+						<b:datepicker value="#{findOneInvoiceByID.shippedDate}"></b:datepicker>	
+						
+						<h:outputLabel value="Shipper" />
+						<b:selectOneMenu id="Shipper" value="#{findOneInvoiceByID.shipper}">
+							<f:selectItems value="#{shipperController.shippers}" 
+								var="shipper"
+								itemLabel="#{shipper.companyName}"
+								itemValue="#{shipper}" />
+						</b:selectOneMenu>
+						
+						<h:outputLabel value="Employee" />
+						<h:outputText value="#{findOneInvoiceByID.querySingleResult.employee.firstName} #{findOneInvoiceByID.querySingleResult.employee.lastName}" />
+						
+						<h:outputLabel value="Freight" />
+						<h:inputText value="#{findOneInvoiceByID.freight}"></h:inputText>
+						
+						<h:outputLabel value="Sales Total" />
+						<h:outputText value="#{findOneInvoiceByID.salesTotal}">
+							<f:convertNumber type="currency"/>
+						</h:outputText>	
+					</b:panelGrid>
+					<br/>
+					<b:dataTable id="resultPanel"
+						value="#{findOneInvoiceByID.querySingleResult.orderDetails}"
+						var="order"
+						rendered="true"
+						searching="false"
+						paginated="true">
+						<b:dataTableColumn value="#{order.product.productID}"></b:dataTableColumn>
+						<b:dataTableColumn value="#{order.product.productName}"></b:dataTableColumn>
+						<b:dataTableColumn value="#{order.quantity}" styleClass="text-right"></b:dataTableColumn>
+						<b:dataTableColumn styleClass="text-right">
+							<f:facet name="header">
+								Unit Price
+							</f:facet>
+							<h:outputText value="#{order.unitPrice}">
+								<f:convertNumber type="currency"/>
+							</h:outputText>
+						</b:dataTableColumn>
+						<b:dataTableColumn styleClass="text-right">
+							<f:facet name="header">
+								Discount(%)
+							</f:facet>
+							<h:outputText value="#{order.discount}">
+								<f:convertNumber type="percent"/>
+							</h:outputText>
+						</b:dataTableColumn>
+						<b:dataTableColumn styleClass="text-right">
+							<f:facet name="header">
+								Item Total
+							</f:facet>
+							<h:outputText value="#{(order.unitPrice - (order.unitPrice * order.discount)) * order.quantity}">
+								<f:convertNumber type="currency"/>
+							</h:outputText>
+						</b:dataTableColumn>
+					</b:dataTable>
+					<b:row>
+						<b:column span="1">
+							<b:commandButton value="Complete Order" 
+								look="success"
+								ajax="false"
+								actionListener="#{findOneInvoiceByID.completeOrder()}"/>
+						</b:column>		
+					</b:row>
+				</b:panel>
+			</p:outputPanel>
+
+		</b:form>				
+	</ui:define>
+</ui:composition>

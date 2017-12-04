@@ -1,8 +1,8 @@
 package northwind.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.ejb.EJBContext;
@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 
 import northwind.controller.FindOneInvoiceByID;
 import northwind.data.OrderRepository;
-import northwind.data.ProductRepository;
 import northwind.exception.IllegalQuantityException;
 import northwind.exception.InsufficientStockException;
 import northwind.exception.NoOrderDetailException;
@@ -20,6 +19,8 @@ import northwind.exception.ShippedDateExistsException;
 import northwind.model.Order;
 import northwind.model.OrderDetail;
 import northwind.model.OrderDetailPK;
+import northwind.model.Product;
+import northwind.model.Shipper;
 
 @Stateless
 public class OrderService {
@@ -32,9 +33,6 @@ public class OrderService {
 
 	@Inject
 	private OrderRepository orderRepository;
-	
-	@Inject
-	private ProductRepository productRepository;
 	
 	public List<Order> findOrdersByDateRange(Date dateOne, Date dateTwo) {
 		return orderRepository.findOrderByDateRange(dateOne, dateTwo);
@@ -91,6 +89,7 @@ public class OrderService {
 		return orderId;
 	}
 	
+//	data is passed from the controller into this method here to update it
 	
 	public void removeOrder(Order currentOrder) throws ShippedDateExistsException {
 		if (currentOrder.getShippedDate() != null) {
@@ -107,5 +106,41 @@ public class OrderService {
 		}
 		
 	}	
+	
+	public int completeOrder(Order updateOrder, BigDecimal freight, Shipper shipper, Date shippedDate ) 
+			throws IllegalQuantityException, InsufficientStockException{
+		
+		updateOrder.setShipper(shipper);
+		updateOrder.setFreight(freight);
+		updateOrder.setShippedDate(shippedDate);
+		
+		int orderId = 0;
+		
+		for (OrderDetail singleItem : updateOrder.getOrderDetails()) {
+					
+					if (singleItem.getQuantity() < 1) {
+						context.setRollbackOnly();
+						throw new IllegalQuantityException("Invalid quantity ordered.");
+					}
+					
+					if (singleItem.getQuantity() > singleItem.getProduct().getUnitsInStock() ) {
+						context.setRollbackOnly();
+						throw new InsufficientStockException("Not enough stock for Product " + singleItem.getProduct().getProductName() + ". Too much quantity ordered.");
+					}
+					
+					Product currentProduct = singleItem.getProduct();
+					Short currentUnits = currentProduct.getUnitsInStock();
+					currentProduct.setUnitsInStock((short) (currentUnits - singleItem.getQuantity()));
+					
+					entityManager.merge(currentProduct);
+					
+				}
+				orderId = updateOrder.getOrderID();
+				
+				entityManager.merge(updateOrder);
+		
+		return orderId;
+	}
+		
 	
 }
