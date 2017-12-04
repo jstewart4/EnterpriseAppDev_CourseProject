@@ -10,12 +10,13 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-
+import northwind.controller.FindOneInvoiceByID;
 import northwind.data.OrderRepository;
 import northwind.data.ProductRepository;
 import northwind.exception.IllegalQuantityException;
 import northwind.exception.InsufficientStockException;
 import northwind.exception.NoOrderDetailException;
+import northwind.exception.ShippedDateExistsException;
 import northwind.model.Order;
 import northwind.model.OrderDetail;
 import northwind.model.OrderDetailPK;
@@ -91,5 +92,20 @@ public class OrderService {
 	}
 	
 	
+	public void removeOrder(Order currentOrder) throws ShippedDateExistsException {
+		if (currentOrder.getShippedDate() != null) {
+			context.setRollbackOnly();
+			throw new ShippedDateExistsException("Order has been shipped");
+		} else {
+			List<OrderDetail> items = currentOrder.getOrderDetails();
+			for (OrderDetail details : items ) {
+				entityManager.remove(entityManager.merge(details));
+			}
+			entityManager.remove(entityManager.merge(currentOrder));
+			
+			//orderRepository.remove(currentOrder); // remove order and order details
+		}
+		
+	}	
 	
 }
