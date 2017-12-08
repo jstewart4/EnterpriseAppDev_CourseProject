@@ -62,11 +62,12 @@
 	<security-constraint>
 		<display-name>Administrator Area</display-name>
 		<web-resource-collection>
-			<web-resource-name>Administrator Resources</web-resource-name>
+			<web-resource-name>Administrator Resources</web-resource-name>	
 			<url-pattern>/public/createCategory.xhtml</url-pattern>			
 			<url-pattern>/public/createCustomer.xhtml</url-pattern>			
 			<url-pattern>/public/createProduct.xhtml</url-pattern>	
-			<url-pattern>/public/createShipper.xhtml</url-pattern>		
+			<url-pattern>/public/createShipper.xhtml</url-pattern>
+			<url-pattern>/public/createAppUser.xhtml</url-pattern>	
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>Administrator</role-name>
