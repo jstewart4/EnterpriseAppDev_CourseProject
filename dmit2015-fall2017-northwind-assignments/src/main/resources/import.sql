@@ -17,3 +17,8 @@
 
 -- You can use this file to load seed data into the database using SQL statements
 --insert into Member (id, name, email, phone_number) values (0, 'John Smith', 'john.smith@mailinator.com', '2125551212') 
+--INSERT INTO AppUser(LoginName,Password) VALUES('supergirl','Password2015');
+INSERT INTO AppUser(LoginName,Password) VALUES('supergirl','NDstVpB2c4IJ/SDSQGE8Bs5HMnH4MiaOU3IbtmsQu3s=');
+INSERT INTO AppUserRole(LoginName,RoleName) VALUES('supergirl','Administrator');
+INSERT INTO AppUserRole(LoginName,RoleName) VALUES('supergirl','Employee');
+INSERT INTO AppUserRole(LoginName,RoleName) VALUES('supergirl','Customer');
