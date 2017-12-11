@@ -29,6 +29,7 @@ import northwind.model.Shipper;
 @Stateless
 @SecurityDomain("northwindDomain")
 @DeclareRoles({"Administrator","Employee","Customer"})
+@RolesAllowed({"Administrator","Employee","Customer"})
 public class OrderService {
 	
 	@Resource
@@ -43,7 +44,6 @@ public class OrderService {
 	@RolesAllowed({"Employee"})
 	public List<Order> findOrdersByDateRange(Date dateOne, Date dateTwo) {
 		return orderRepository.findOrderByDateRange(dateOne, dateTwo);
-		
 	}
 	
 	@RolesAllowed({"Employee"})
