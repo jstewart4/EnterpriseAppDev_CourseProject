@@ -5,10 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+
+import org.jboss.security.annotation.SecurityDomain;
 
 import northwind.controller.FindOneInvoiceByID;
 import northwind.data.OrderRepository;
@@ -23,6 +27,8 @@ import northwind.model.Product;
 import northwind.model.Shipper;
 
 @Stateless
+@SecurityDomain("northwindDomain")
+@DeclareRoles({"Administrator","Employee","Customer"})
 public class OrderService {
 	
 	@Resource
@@ -34,21 +40,21 @@ public class OrderService {
 	@Inject
 	private OrderRepository orderRepository;
 	
+	@RolesAllowed({"Employee"})
 	public List<Order> findOrdersByDateRange(Date dateOne, Date dateTwo) {
 		return orderRepository.findOrderByDateRange(dateOne, dateTwo);
 		
 	}
 	
+	@RolesAllowed({"Employee"})
 	public List<Order> findOrdersByYearAndMonth(int year, int month){
 		return orderRepository.findOrdersByYearAndMonth(year, month);
 	}
 	
+	@RolesAllowed({"Employee"})
 	public Order findOneSalesInvoice(int orderId){
 		return orderRepository.findOne(orderId);
 	}
-	
-	
-	
 	
 	
 	public int createOrder(Order newOrder, List<OrderDetail> products) 

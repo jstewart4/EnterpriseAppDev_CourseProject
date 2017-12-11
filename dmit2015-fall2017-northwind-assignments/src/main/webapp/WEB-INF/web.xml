@@ -79,24 +79,28 @@
 		<web-resource-collection>
 			<web-resource-name>Employee Resources</web-resource-name>
 			<url-pattern>/public/pointofSales.xhtml</url-pattern>
-			<url-pattern>/public/report/**</url-pattern>
+			<url-pattern>/public/findSalesInvoiceByOrderId.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>Administrator</role-name>
 			<role-name>Employee</role-name>
 		</auth-constraint>
 	</security-constraint>
 	
 	<security-constraint>
-		<display-name>Customer Area</display-name>
+		<display-name>Employee or Administrator Area</display-name>
 		<web-resource-collection>
-			<web-resource-name>Customer Resources</web-resource-name>
-			<url-pattern>/public/categories.xhtml</url-pattern>
+			<web-resource-name>Employee Resources</web-resource-name>
+			<url-pattern>/public/report/categorySalesForYear.xhtml</url-pattern>
+			<url-pattern>/public/report/employeeSalesReport.xhtml</url-pattern>
+			<url-pattern>/public/report/monthlySalesByYear.xhtml</url-pattern>
+			<url-pattern>/public/report/productSalesForYear.xhtml</url-pattern>
+			<url-pattern>/public/report/tenMostExpensiveProducts.xhtml</url-pattern>
+			<url-pattern>/public/report/top25PercentCustomersTable.xhtml</url-pattern>
+			<url-pattern>/public/report/top5CustomersReport.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>Administrator</role-name>
 			<role-name>Employee</role-name>
-			<role-name>Customer</role-name>
 		</auth-constraint>
 	</security-constraint>
 	
@@ -123,6 +127,10 @@
 		</form-login-config>
 	</login-config>
 	
+	<error-page>
+		<error-code>401</error-code>
+		<location>/public/error401.xhtml</location>
+	</error-page>	
 	<error-page>
 		<error-code>403</error-code>
 		<location>/public/error403.xhtml</location>
