@@ -2,6 +2,10 @@ package northwind.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +17,7 @@ import java.util.List;
 @Entity
 @Table(name="Employees")
 @NamedQuery(name="Employee.findAll", query="SELECT e FROM Employee e")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Employee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -76,15 +81,18 @@ public class Employee implements Serializable {
 	@Column(name="TitleOfCourtesy")
 	private String titleOfCourtesy;
 
+	@XmlTransient
 	//bi-directional many-to-one association to Employee
 	@ManyToOne
 	@JoinColumn(name="ReportsTo")
 	private Employee employee;
 
+	@XmlTransient
 	//bi-directional many-to-one association to Employee
 	@OneToMany(mappedBy="employee")
 	private List<Employee> employees;
 
+	@XmlTransient
 	//bi-directional many-to-one association to Order
 	@OneToMany(mappedBy="employee")
 	private List<Order> orders;

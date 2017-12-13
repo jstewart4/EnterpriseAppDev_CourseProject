@@ -2,6 +2,9 @@ package northwind.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -11,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="Territories")
 @NamedQuery(name="Territory.findAll", query="SELECT t FROM Territory t")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Territory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,6 +26,7 @@ public class Territory implements Serializable {
 	@Column(name="TerritoryDescription")
 	private String territoryDescription;
 
+	@XmlTransient
 	//bi-directional many-to-one association to Region
 	@ManyToOne
 	@JoinColumn(name="RegionID")

@@ -3,6 +3,9 @@ package northwind.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,6 +21,7 @@ import java.util.List;
 @Entity
 @Table(name="Customers")
 @NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -60,6 +64,7 @@ public class Customer implements Serializable {
 	@Column(name="Region")
 	private String region;
 
+	@XmlTransient
 	//bi-directional many-to-one association to Order
 	@OneToMany(mappedBy="customer")
 	private List<Order> orders;
